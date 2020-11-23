@@ -1,0 +1,1607 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="数据结构——关键路径详解, 一个人的成长">
+    <meta name="description" content="
+
+AOV网：顶点活动（Activity On Vertex，AOV）网是指用顶点表示活动，而用边集表示活动间优先关系的有向图。例如图10-57的先导课程示意图就是AOV网，其中图的顶点表示各项课程，也就是“活动”；有向边表示课程的先导关系">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>数据结构——关键路径详解 | 自由の翼</title>
+    <link rel="icon" type="image/jpeg" href="/img/111.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+
+    <script data-ad-client="ca-pub-6292651392430027" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="alternate" href="/atom.xml" title="自由の翼" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/img/logo1.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">自由の翼</span>
+
+                    
+                    
+                    <script>
+                      /* 标签页标题切换 */
+                      var originTitle = document.title;
+                      var titleTime;
+                      document.addEventListener("visibilitychange", function () {
+                        if (document.hidden) {
+                          document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                          clearTimeout(titleTime);
+                        } else {
+                          document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                          titleTime = setTimeout(function () {
+                            document.title = originTitle;
+                          }, 2000);
+                        }
+                      });
+                    </script>
+                    
+
+                    
+
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/goodpapers" class="waves-effect waves-light">
+      
+      <i class="fas fa-coffee" style="zoom: 0.6;"></i>
+      
+      <span>收藏</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="margin-right: -100px; zoom: 0.6;"></i>
+    </a>
+  </li>
+
+  <li>
+  <a>
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+  </a>
+  </li>
+  <li>
+  <a></a>
+  </li>
+
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/img/logo1.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">自由の翼</div>
+        <div class="logo-desc">
+            
+            只愿今朝逢知己，共同成长
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Home
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/goodpapers" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-coffee"></i>
+			
+			Goodpapers
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zzw1024" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zzw1024" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">数据结构——关键路径详解</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/">
+                                <span class="chip bg-color">关键路径</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                数据结构
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+
+                <div class="info-break-policy">
+                    
+                        <i class="fa fa-user"></i> 作者:&nbsp;&nbsp;
+                        zzw         
+                    
+                </div>
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-06-09
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-06-09
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    11 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <!-- password: -->
+
+<h1 id="AOV网："><a href="#AOV网：" class="headerlink" title="AOV网："></a>AOV网：</h1><p>顶点活动（Activity On Vertex，AOV）网是指用顶点表示活动，而用边集表示活动间优先关系的有向图。例如图10-57的先导课程示意图就是AOV网，其中图的顶点表示各项课程，也就是“活动”；有向边表示课程的先导关系，也就是“活动间的优先关系”。显然，图中不应当存在有向环，否则会让优先关系出现逻辑错误。<br><img src="https://img-blog.csdnimg.cn/20191122154223280.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""><br>​</p>
+<h1 id="AOE网："><a href="#AOE网：" class="headerlink" title="AOE网："></a>AOE网：</h1><p>边活动（Activity On Edge，AOE）网是指用带权的边集表示活动，而用顶点表示事件的有向图，其中边权表示完成活动需要的时间。例如图10-59中，边a1<del>a6表示需要学习的课程，也就是“活动”，边权表示课程学习需要消耗的时间；顶点V1</del>V6。表示到此刻为止前面的课程已经学完，后面的课程可以开始学习，也就是“事件”（如V5表示a4计算方法和a3实变函数已经学完，a6泛函分析可以开始学习。从另一个角度来看，a6只有当a4和a5都完成时才能开始进行，因此当a4计算方法学习完毕后必须等待a5实变函数学习完成后才能进入到a6泛函分析的学习），显然“事件”仅代表一个中介状态。<br><img src="https://img-blog.csdnimg.cn/2019112215324778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""><br>​</p>
+<ul>
+<li><p>源点：在AOE网中，没有入边的顶点称为源点；如顶点V1 </p>
+</li>
+<li><p>终点：在AOE网中，没有出边的顶点称为终点；如顶点V6 </p>
+</li>
+</ul>
+<h1 id="AOE网的性质："><a href="#AOE网的性质：" class="headerlink" title="AOE网的性质："></a>AOE网的性质：</h1><ul>
+<li><p>只有在进入某顶点的活动都已经结束，该顶点所代表的事件才发生；</p>
+</li>
+<li><p>只有在某顶点所代表的事件发生后，从该顶点出发的各活动才开始；</p>
+</li>
+</ul>
+<p>AOE网中的<strong>最长路径被称为关键路径</strong>（强调：关键路径就是AOE网的最长路径），而把关键路径上的活动称为关键活动，显然关键活动会影响整个工程的进度。</p>
+<h1 id="关键概念："><a href="#关键概念：" class="headerlink" title="关键概念："></a>关键概念：</h1><p>​<img src="https://img-blog.csdnimg.cn/201911221535246.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<ol>
+<li>事件的最早发生时间ve[k]（earliest time of vertex）：即顶点vk的最早发生时间。</li>
+</ol>
+<p>从源点向终点方向计算</p>
+<pre><code>ve[0] = 0
+
+ve[1] = ve[0] + a0 = 0 + 4 = 4
+
+ve[2] = max( ve[0] + a1, ve[1] + a2 ) = max(0 + 3, 4 + 2 = 6
+
+ve[3] = max(ve[1] + a4, ve[2] + a3) = max(4 + 6, 3 + 4) = 10</code></pre><ol start="2">
+<li>事件的最晚发生时间vl[k]（latest time of vertex）：即顶点vk的最晚发生时间，也就是每个顶点对应的事件最晚需要开始的时间，超出此时间将会延误整个工期。</li>
+</ol>
+<p>从终点向源点方向计算</p>
+<pre><code>vl[3] = ve[3] = 10
+
+vl[2] = vl[3] - a3 = 10 - 4 = 6
+
+vl[1] = min(vl[3] - a4, vl[2] - a2) = min(10-6, 6-2) = 4//之所以求最小，保证其他的点的最晚发生时间
+
+vl[0] = min(vl[2] - a1, vl[1] - a0) = min(4-4, 4-2) = 0 </code></pre><ol start="3">
+<li>活动的最早开工时间e[k]（earliest time of edge）：即弧ax的最早发生时间。</li>
+</ol>
+<p>5条边，5个活动</p>
+<pre><code>e[0] = ve[0] = 0
+
+e[1] = ve[0] = 0
+
+e[2] = ve[1] = 4
+
+e[3] = ve[2] = 6
+
+e[4] = ve[1] = 4</code></pre><ol start="4">
+<li>活动的最晚开工时间l[k]（latest time of edge）：即弧ak的最晚发生时间，也就是不推迟工期的最晚开工时间。<pre><code>e[0] = v[1] - a0 = 4 - 4 = 0
+</code></pre></li>
+</ol>
+<p>e[1] = vl[2] - a1 = 6 - 3 = 3</p>
+<p>e[2] = vl[2] - a2 = 6 - 2 = 4</p>
+<p>e[3] = vl[3] - a3 = 10 - 4 = 6</p>
+<p>e[4] = vl[3] - a4 = 10 - 6 = 4 </p>
+<pre><code>活动的最早开始时间和最晚开始时间相等，则说明该活动时属于关键路径上的活动，即关键活动
+
+# 算法设计：
+关键路径算法是一种典型的动态规划法，设图G=(V, E)是个AOE网，结点编号为1,2,...,n，其中结点1与n 分别为始点和终点，ak=&lt;i, j&gt;∈E是G的一个活动。算法关键是确定活动的最早发生时间ve[k]和最晚发生时间vl[k]，进而获取顶点的最早开始时间e[k]和最晚开始时间l[k]。
+
+根据前面给出的定义，可推出活动的最早及最晚发生时间的计算方法：</code></pre><p>e(k) = ve(i) </p>
+<p>l(k) = vl(j) - len(i,j)</p>
+<pre><code>​![](https://img-blog.csdnimg.cn/20191122153716227.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70)
+
+结点的最早发生时间的计算，需按拓扑次序递推：</code></pre><p>ve(1) = 0</p>
+<p>ve(j) = MAX{ etv(i)+len(i, j) }</p>
+<pre><code>
+对所有&lt;i,j&gt; ∈E的i  结点的最晚发生时间的计算，需按逆拓扑次序递推：</code></pre><p>vl(n) = ve(n)</p>
+<p>vl(i) = MIN{vl(j) - len(i, j)} 对所有&lt;i,j&gt;∈E的j</p>
+<pre><code>
+这种计算方法， 依赖于拓扑排序， 即计算ve( j) 前，应已求得j 的各前趋结点的ve值，而计算vl(i)前，应已求得i的各后继结点的vl值。ve的计算可在拓扑排序过程中进行，即在每输出一个结点i后，在删除i的每个出边&lt;i,j&gt;（即入度减1）的同时，执行</code></pre><p>if ( ve[i]+len(i,j)) &gt; ve[j] )</p>
+<p>ve[j] = ve[i] + len(i,j)</p>
+<pre><code>
+这时会发现，如果想要获得ve[j]的正确值，ve[il]\~ve[ik]必须已经得到。有什么办法能够在访问某个结点时保证它的前驱结点都已经访问完毕呢？没错，使用拓扑排序就可以办到。
+
+当按照拓扑序列计算ve数组时，总是能保证计算ve[i]的时候ve[il]~ve[ik]都已经得到。但是这时又碰到另一个问题，通过前驱结点去寻找所有后继结点很容易，但是通过后继结点V；去寻找它的前驱结点V1~Vx似乎没有那么直观。一个比较好的办法是，在拓扑排序访问到某个结点时，不是让它去找前驱结点来更新ve[i]，而是使用ve[i]去更新其所有后继结点的ve值。通过这个方法，可以让拓扑排序访问到V；的时候，V1\~Vk一定都已经用来更新过ve[i]，此时的ve[i]便是正确值，就可以用它去更新V；的所有后继结点的ve值。
+</code></pre><p>//拓扑序列</p>
+<p>stack<int>topOrder;</p>
+<p>//拓扑排序，顺便求ve数组</p>
+<p>bool topologicalSort()</p>
+<p>{</p>
+<pre><code>queue&lt;int&gt;q;
+
+for(int i=0;i&lt;n;i++)
+
+    if(inDegree[i]==0)
+
+        q.push(i);
+
+while(!q.empty())
+
+{
+
+    int u=q.front();
+
+    q.pop();
+
+    topOrder.push(u);//将u加入拓扑序列
+
+    for(int i=0;i&lt;G[u].size();i++)
+
+    {
+
+        int v=G[u][i].v;//u的i号后继结点编号为v
+
+        inDegree[v]--;
+
+        if(inpegree[v]==0)
+
+            q.push(v);
+
+        //用ve[u]来更新u的所有后继结点
+
+        if(ve[u]+G[u][i].w&gt; ve[v])
+
+            ve[v]=ve[u]+G[u][i].w;
+
+    }
+
+}
+
+if(toporder.size()== n)
+
+    return true;
+
+else
+
+    return false;</code></pre><p>}</p>
+<pre><code>
+同理，如图10-64所示，从事件V出发通过相应的活动ar1~ark可以到达k个事件V1~Vk，活动的边权为length[r1]~length[rk]。假设已经算好了事件V1~Vk的最迟发生时间xl[j1]～vl[jk]，那么事件Vi的最迟发生时间就是vl[j1]-length[r1]~vl[jk]-length[rk]中的最小值。此处取最小值是因为必须保证Vj1~Vjk的最迟发生时间能被满足；可以通过下面这个公式辅助理解。
+![](https://img-blog.csdnimg.cn/20191122153835953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70)
+
+和ve数组类似，如果需要算出vl[i]的正确值，vl[j1]\~vl[jk]必须已经得到。这个要求与ve数组的刚好相反，也就是需要在访问某个结点时保证它的后继结点都已经访问完毕，而这可以通过使用逆拓扑序列来实现。幸运的是，不必再做一次逆拓扑排序来得到逆拓扑序列，而是可以通过颠倒拓扑序列来得到一组合法的逆拓扑序列。此时会发现，在上面实现拓扑排序的过程中使用了栈来存储拓扑序列，那么只需要按顺序出栈就是逆拓扑序列。而当访问逆拓扑序列中的每个事件Vi时，就可以遍历Vi的所有后继结点Vj1\~Vjk，使用vI[j1]\~vl[jk]来求出vl[i]。
+
+这部分的代码如下所示：</code></pre><p>fill(vl，v1+n，ve[n-1]);//v1数组初始化，初始值为终点的ve值</p>
+<p>//直接使用toporder出栈即为逆拓扑序列，求解v1数组</p>
+<p>while(！topOrder.empty())</p>
+<p>{</p>
+<pre><code>int u=topOrder.top();//栈顶元素为u
+
+topOrder.pop();
+
+for(int i=0;i&lt;G[u].size();i++)
+
+{
+
+    int v=G[u][i].v;//u的后继结点v
+
+    //用u的所有后继结点v的v1值来更新v1[u]
+
+    if(vl[v]-G[u][i].w &lt; vl[u])
+
+        vl[u]=vl[v]-G[u][i].w;
+
+}</code></pre><p>}</p>
+<pre><code>复制代码
+1 fill(vl，v1+n，ve[n-1]);//v1数组初始化，初始值为终点的ve值
+2 
+3 //直接使用toporder出栈即为逆拓扑序列，求解v1数组
+4 
+5 while(！topOrder.empty())
+6 
+7 {
+8 
+9     int u=topOr
+
+通过上面的步骤已经把求解关键活动的过程倒着推导了一遍，下面给出上面过程的步骤总结，即“先求点，再夹边”：
+
+* ①按拓扑序和逆拓扑序分别计算各顶点（事件）的最早发生时间和最迟发生时间：
+![](https://img-blog.csdnimg.cn/20191122153922180.png)
+​
+* ②用上面的结果计算各边（活动）的最早开始时间和最迟开始时间：
+![](https://img-blog.csdnimg.cn/2019112215395853.png)
+​
+* ③e[i-→] = l[i-→i]的活动即为关键活动。
+
+主体部分代码如下（适用汇点确定且唯一的情况，以n-1号顶点为汇点为例）：【主体代码】
+
+求取关键路径：</code></pre><p>//遍历邻接表的所有边，计算活动的最早开始时间e和最迟开始时间1</p>
+<p>for(int u=0；u&lt;n；u++)</p>
+<p>{</p>
+<pre><code>for(int i=0；i&lt;G[u].size()；i++)
+
+{
+
+    int v=G[u][i].v，w=G[u][i].w；
+
+    //活动的最早开始时间e和最迟开始时间1
+
+    int e=ve[u]，l=vl[v]-w；
+
+    //如果e==1，说明活动u-&gt;v是关键活动
+
+    if(e==1)
+
+    printf(&quot;%d-&gt;%d\n&quot;，u,v)；//输出关键活动}
+
+}
+
+return ve[n-1]；//返回关键路径长度</code></pre><p>}</p>
+<pre><code>
+在上述代码中，没有将活动的最早开始时间e和最迟开始时间l存储下来，这是因为一般来说e和l只是用来判断当前活动是否是关键活动，没有必要单独存下来。如果确实想要将它存储下来，只需要在结构体Node中添加域e和1即可。
+
+如果事先不知道汇点编号，有没有办法比较快地获得关键路径长度呢？当然是有办法的，那就是取ve数组的最大值。原因在于，ve数组的含义是事件的最早开始时间，因此所有事件中ve最大的一定是最后一个（或多个）事件，也就是汇点。于是只需要在fill函数之前添加一小段语句，然后改变下vl函数初始值即可，代码如下：</code></pre><p>int maxLength = 0;</p>
+<p>for(int i=0; i&lt;n; ++i)</p>
+<p>{</p>
+<pre><code>if(ve[i] &gt; maxLength)
+
+    maxLength = ve[i];</code></pre><p>}</p>
+<p>fill(vl, vl + n, maxLength);</p>
+<pre><code></code></pre>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top" rel="external nofollow noreferrer">zzw</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top/2020/06/09/shu-ju-jie-gou-guan-jian-lu-jing-xiang-jie/">http://www.zzw1024.top/2020/06/09/shu-ju-jie-gou-guan-jian-lu-jing-xiang-jie/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.zzw1024.top" target="_blank">zzw</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/">
+                                    <span class="chip bg-color">关键路径</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">谢谢你请我吃糖果</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/img/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/img/weChatPay.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+    var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: 'bolg-comment',
+    owner: '',
+    admin: [''],
+    id: 'Tue Jun 09 2020 22:16:34 GMT+0800',
+    distractionFreeMode: ''
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/06/09/sheng-huo-za-ji-shi-fen-xiang-huo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="生活杂记——诗分享:活">
+                        
+                        <span class="card-title">生活杂记——诗分享:活</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+如果羡慕成功者的富贵，
+别一味模仿他们富贵后的事。
+那些名牌表呀包呀酒呀车呀，
+都是他们富贵后的事。
+硬撑着模仿了，
+也只能图个穷开心而已。
+要模仿，
+就模仿他们富贵前的事。
+他们那些
+鹰般的探索、
+蛇般的专注、
+蚁般的辛劳、
+蛹般的耐
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%AE%B0/" class="post-category">
+                                    生活杂记
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E8%AF%97/">
+                        <span class="chip bg-color">诗</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/06/09/shu-ju-jie-gou-zui-xiao-sheng-cheng-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="数据结构——最小生成树">
+                        
+                        <span class="card-title">数据结构——最小生成树</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+最小生成树：最小生成树（Minimum Spanning Tree，MST）是在一个给定的无向图G（V，E）中求一棵树T，使得这棵树拥有图G中的所有顶点，且所有边都是来自图G中的边，并且满足整棵树的边权之和最小。
+图10-43给出了一个
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                    数据结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+                        <span class="chip bg-color">最小生成树</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 自由の翼<br />'
+            + '作者: 自由の翼<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.zzw1024.top" target="_blank">自由の翼</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "11";
+                    var startDate = "11";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/zzwblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="https://blog.csdn.net/weixin_42637495" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN" data-position="top" data-delay="50">
+        <i class="fab fa-dribbble"></i>
+    </a>
+
+
+
+    <a href="https://www.cnblogs.com/zzw1024/" class="tooltipped" target="_blank" data-tooltip="访问我的博客园" data-position="top" data-delay="50">
+        <i class="fa fa-rss-square"></i>
+    </a>
+
+
+
+    <a href="mailto:819342493@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://pic3.superbed.cn/item/5de4fcd8f1f6f81c50366b77.png" class="tooltipped" target="_blank" data-tooltip="请加我QQ" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://pic1.superbed.cn/item/5de4fd1bf1f6f81c50367398.png" class="tooltipped" target="_blank" data-tooltip="请加我微信" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        bp.src = '//push.zhanzhang.baidu.com/push.js';
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+      <script type="text/javascript" src="/js/snow.js"></script>
+    
+
+
+    <!-- <script async type="text/javascript" size="90" alpha="0.2" zIndex="0" src="/plugins/ribbon.js/ribbon.min.js"></script> -->
+    
+    
+        <script type="text/javascript" src="/plugins/live2d-widget.js/L2Dwidget.min.js"></script>
+<script type="text/javascript">
+  /**
+   * 完整配置请参考：https://l2dwidget.js.org/docs/class/src/index.js~L2Dwidget.html#instance-method-init
+   */
+  var pluginModelPath = "assets/", // 模型的文件路径，无需更改
+    pluginRootPath = "/live2d_models/"; // 插件的路径，无需更改
+  //特定的模型json文件名称
+  var modelPathJson = {
+    "epsilon2_1": "Epsilon2.1",
+    "gf": "Gantzert_Felixander",
+    "haru/01": "haru01",
+    "haru/02": "haru02",
+    "nietzsche": "nietzche"
+  }
+
+  
+    var modelName = "shizuku";
+  
+
+  var modelJsonPath = "";
+  if (modelPathJson[modelName]) {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelPathJson[modelName] +
+      ".model.json";
+  } else {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelName + ".model.json";
+  }
+  L2Dwidget.init({
+    model: {
+      jsonPath: modelJsonPath
+    },
+    display: {
+       position: "right", 
+       width: 145, 
+       height: 315, 
+       hOffset: 50, 
+       vOffset: 35 
+    },
+    mobile: {
+       show: false, 
+       scale: 0.6 
+    },
+    react: {
+       opacity: 0.8 
+    }
+  })
+
+</script>
+
+    
+
+    <!-- 音乐 -->
+     
+
+    <!-- 天气 -->
+     
+        <!-- weather -->
+<script type="text/javascript">
+    WIDGET = {FID: 'iBarNbUMlb'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+    
+
+
+</body>
+
+</html>

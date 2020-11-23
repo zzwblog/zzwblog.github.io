@@ -1,0 +1,1685 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="数据结构——hash表详解, 一个人的成长">
+    <meta name="description" content="哈希表结构讲解：哈希表（Hash table，也叫散列表），是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组叫做">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>数据结构——hash表详解 | 自由の翼</title>
+    <link rel="icon" type="image/jpeg" href="/img/111.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+
+    <script data-ad-client="ca-pub-6292651392430027" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="alternate" href="/atom.xml" title="自由の翼" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/img/logo1.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">自由の翼</span>
+
+                    
+                    
+                    <script>
+                      /* 标签页标题切换 */
+                      var originTitle = document.title;
+                      var titleTime;
+                      document.addEventListener("visibilitychange", function () {
+                        if (document.hidden) {
+                          document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                          clearTimeout(titleTime);
+                        } else {
+                          document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                          titleTime = setTimeout(function () {
+                            document.title = originTitle;
+                          }, 2000);
+                        }
+                      });
+                    </script>
+                    
+
+                    
+
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/goodpapers" class="waves-effect waves-light">
+      
+      <i class="fas fa-coffee" style="zoom: 0.6;"></i>
+      
+      <span>收藏</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="margin-right: -100px; zoom: 0.6;"></i>
+    </a>
+  </li>
+
+  <li>
+  <a>
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+  </a>
+  </li>
+  <li>
+  <a></a>
+  </li>
+
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/img/logo1.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">自由の翼</div>
+        <div class="logo-desc">
+            
+            只愿今朝逢知己，共同成长
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Home
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/goodpapers" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-coffee"></i>
+			
+			Goodpapers
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zzw1024" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zzw1024" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">数据结构——hash表详解</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/hash/">
+                                <span class="chip bg-color">hash</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                数据结构
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+
+                <div class="info-break-policy">
+                    
+                        <i class="fa fa-user"></i> 作者:&nbsp;&nbsp;
+                        zzw         
+                    
+                </div>
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-12-23
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-12-23
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    30 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="哈希表结构讲解："><a href="#哈希表结构讲解：" class="headerlink" title="哈希表结构讲解："></a>哈希表结构讲解：</h2><p>哈希表（Hash table，也叫散列表），是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组叫做散列表。</p>
+<p>记录的存储位置 = <strong>function(关键字)</strong><br>这里的对应关系function称为散列函数，又称为哈希（Hash函数），采用散列技术将记录存储在一块连续的存储空间中，这块连续存储空间称为散列表或哈希表（Hash table）。   </p>
+<p>哈希表hashtable(key，value)  就是把Key通过一个固定的算法函数function既所谓的哈希函数转换成一个整型数字，然后就将该数字对数组长度进行取余，<strong>取余</strong>结果就当作数组的下标，将value存储在以该数字为下标的数组空间里。（或者：把任意长度的输入（又叫做预映射， pre-image），通过散列算法，变换成固定长度的输出，该输出就是散列值。这种转换是一种压缩映射，也就是，散列值的空间通常远小于输入的空间，不同的输入可能会散列成相同的输出，而不可能从散列值来唯一的确定输入值。简单的说就是一种将任意长度的消息压缩到某一固定长度的消息摘要的函数。） 而当使用哈希表进行查询的时候，就是再次使用哈希函数将key转换为对应的数组下标 <strong>(仍通过映射哈希函数function)</strong> ，并定位到该空间获取value，如此一来，就可以充分利用到数组的定位性能进行数据定位。 </p>
+<h2 id="Hash的应用："><a href="#Hash的应用：" class="headerlink" title="Hash的应用："></a>Hash的应用：</h2><ol>
+<li><p>Hash主要用于信息安全领域中==加密算法==，它把一些不同长度的信息转化成杂乱的128位的编码,这些编码值叫做Hash值. 也可以说，Hash就是找到一种数据内容和数据存放地址之间的映射关系。</p>
+</li>
+<li><p>查找：<br>哈希表，又称为散列，是一种更加快捷的查找技术。我们之前的查找，都是这样一种思路：集合中拿出来一个元素，看看是否与我们要找的相等，如果不等，缩小范围，继续查找。而哈希表是完全另外一种思路：当我知道key值以后，我就可以直接计算出这个元素在集合中的位置，根本不需要一次又一次的查找！</p>
+</li>
+</ol>
+<p>举一个例子，假如我的数组A中，第i个元素里面装的key就是i，那么数字3肯定是在第3个位置，数字10肯定是在第10个位置。哈希表就是利用利用这种基本的思想，建立一个从key到位置的函数，然后进行直接计算查找。</p>
+<ol start="3">
+<li>Hash表在海量数据处理中有着广泛应用。</li>
+</ol>
+<h2 id="Hash的特点："><a href="#Hash的特点：" class="headerlink" title="Hash的特点："></a>Hash的特点：</h2><p>Hash Table的查询速度非常的快，几乎是==O(1) 的时间复杂度==。<br>hash就是找到一种数据内容和数据存放地址之间的映射关系。   </p>
+<h3 id="散列法：元素特征转变为数组下标的方法。"><a href="#散列法：元素特征转变为数组下标的方法。" class="headerlink" title="散列法：元素特征转变为数组下标的方法。"></a>散列法：元素特征转变为数组下标的方法。</h3><p>我想大家都在想一个很严重的问题：“如果两个字符串在哈希表中对应的位置相同怎么办？”,毕竟一个数组容量是有限的，这种可能性很大。解决该问题的方法很多，我首先想到的就是用“链表”。我遇到的很多算法都可以转化成链表来解决，只要在<strong>哈希表的每个入口挂一个链表</strong>，保存所有对应的字符串就OK了。</p>
+<h3 id="散列表的查找步骤-："><a href="#散列表的查找步骤-：" class="headerlink" title="散列表的查找步骤 ："></a>散列表的查找步骤 ：</h3><p>当存储记录时，通过散列函数计算出记录的散列地址<br>当查找记录时，我们通过同样的是散列函数计算记录的散列地址，并按此散列地址访问该记录   </p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//////////////////*********怎样判断一个数是否存在hash表中///////</span>
+即使用hash映射函数进行查找，当查找某个位置为空或者查找整个hash表完毕即表示该数不存在hash表中
+<span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">[</span><span class="token punctuation">(</span>x <span class="token operator">+</span> j <span class="token operator">*</span> j<span class="token punctuation">)</span> <span class="token operator">%</span> n<span class="token punctuation">]</span> <span class="token operator">==</span> x <span class="token operator">||</span> v<span class="token punctuation">[</span><span class="token punctuation">(</span>x <span class="token operator">+</span> j <span class="token operator">*</span> j<span class="token punctuation">)</span> <span class="token operator">%</span> n<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//==0表示不存在，我就死在这点上了</span>
+     <span class="token keyword">break</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="关键字——散列函数（哈希函数）——散列地址"><a href="#关键字——散列函数（哈希函数）——散列地址" class="headerlink" title="关键字——散列函数（哈希函数）——散列地址"></a>关键字——散列函数（哈希函数）——散列地址</h3><p><strong>优点</strong>：一对一的查找效率很高；</p>
+<p><strong>缺点</strong>：一个关键字可能对应多个散列地址；需要查找一个范围时，效果不好。</p>
+<p><strong>散列冲突</strong>：不同的关键字经过散列函数的计算得到了相同的散列地址。</p>
+<p>==好的散列函数=计算简单+分布均匀（计算得到的散列地址分布均匀）m==</p>
+<p>哈希表是种数据结构，它可以提供快速的插入操作和查找操作。 </p>
+<h2 id="Hash优缺点："><a href="#Hash优缺点：" class="headerlink" title="Hash优缺点："></a>Hash优缺点：</h2><p><strong>优点：</strong><br>不论哈希表中有多少数据，查找、插入、删除（有时包括删除）只需要接近常量的时间即O(1）的时间级。实际上，这只需要几条机器指令。</p>
+<p>哈希表运算得非常快，在计算机程序中，如果需要在一秒种内查找上千条记录通常使用哈希表（例如拼写检查器)哈希表的速度明显比树快，树的操作通常需要O(N)的时间级。哈希表不仅速度快，编程实现也相对容易。</p>
+<p>如果不需要有序遍历数据，并且可以提前预测数据量的大小。那么哈希表在速度和易用性方面是无与伦比的。</p>
+<p><strong>缺点：</strong><br>它是基于数组的，数组创建后难于扩展，某些哈希表被基本填满时，性能下降得非常严重，所以程序员必须要清楚表中将要存储多少数据（或者准备好定期地把数据转移到更大的哈希表中，这是个费时的过程）。 </p>
+<h2 id="常见的散列法："><a href="#常见的散列法：" class="headerlink" title="常见的散列法："></a>常见的散列法：</h2><p>元素特征转变为数组下标的方法就是散列法。散列法当然不止一种，下面列出三种比较常用的：</p>
+<h3 id="1、除法【求余】散列法"><a href="#1、除法【求余】散列法" class="headerlink" title="1、除法【求余】散列法"></a>1、除法【求余】散列法</h3><p>最直观的一种，公式：<br><strong>index = value % 16</strong><br>学过汇编的都知道，求模数其实是通过一个除法运算得到的，所以叫“除法散列法”。<br>一般哈希表的大小为素数，因为素数不存在因子，所以大大减少了位置冲突的概率</p>
+<h3 id="2、MAD法"><a href="#2、MAD法" class="headerlink" title="2、MAD法"></a>2、MAD法</h3><p>除余法存在的不足<br>除余法虽能一定程度保证词条均匀分布，但从关键码空间到散列地址空间依然残留有一定的连续性，如 相邻关键码对应散列地址也相邻。<br>因此便有mad法，若常数ab选取得当，可以很好地克服除余法的这种连续性。除余法也可以看作Mad法a=1和b=0的特例，只是两个常数并未发挥实质作用。<br><img src="https://img-blog.csdnimg.cn/20191121225601879.jpg" alt=""><br>表达式:<br><strong>hash(key) = (a*key+b) % M</strong>， 其中M仍为素数,a&gt;0,b&gt;0，且a % M != 0</p>
+<h3 id="3、数字分析法（selecting-digits）"><a href="#3、数字分析法（selecting-digits）" class="headerlink" title="3、数字分析法（selecting digits）"></a>3、数字分析法（selecting digits）</h3><p>注：<br>以下各方法为保证落在合法的散列地址空间上，最后通常还需对表长M取余。<br>思路:<br>从关键码key特定进制的展开中抽取特定的若干位，构成整型地址。<br>表达式:<br>例：选取key十进制展开中的奇数位<br><strong>hash(123456789) = 13579</strong>   </p>
+<h3 id="4、平方取中法（mid-square）"><a href="#4、平方取中法（mid-square）" class="headerlink" title="4、平方取中法（mid-square）"></a>4、平方取中法（mid-square）</h3><p>思路:<br>从关键码key的平方的十进制或二进制展开中取居中的若干位，构成一个整型地址。<br>表达式:<br>例：取平方并用十进制展开中的居中3位作为散列地址<br><strong>123^2 = 15129，hash(123) = 512</strong>                  </p>
+<h3 id="5、折叠法（folding）"><a href="#5、折叠法（folding）" class="headerlink" title="5、折叠法（folding）"></a>5、折叠法（folding）</h3><p>思路:<br>将关键码的十进制或二进制展开分割成等宽的若干段，取其总和作为散列地址。<br>表达式:<br>例：以十进制三个数位为分割单位<br><strong>hash(123456789) = 123+456+789 = 1368</strong>                       </p>
+<h3 id="6、异或法（xor）"><a href="#6、异或法（xor）" class="headerlink" title="6、异或法（xor）"></a>6、异或法（xor）</h3><p>思路:<br>将关键码的二进制展开分割成等宽的若干段，经异或运算得到散列地址。<br>表达式:<br>例：以二进制三个数位为分割单位<br><strong>hash(411) = hash(110011011b) = 110^011^011 = 110b = 6</strong> </p>
+<h3 id="7、平方散列法"><a href="#7、平方散列法" class="headerlink" title="7、平方散列法"></a>7、平方散列法</h3><p>求index是非常频繁的操作，而乘法的运算要比除法来得省时（对现在的CPU来说，估计我们感觉不出来），所以我们考虑把除法换成乘法和一个位移操作。公式：<br><strong>index = (value * value) &gt;&gt; 28</strong><br>（右移，除以2^28。记法：左移变大，是乘。右移变小，是除。）<br>如果数值分配比较均匀的话这种方法能得到不错的结果，但我上面画的那个图的各个元素的值算出来的index都是0——非常失败。也许你还有个问题，value如果很大，value * value不会溢出吗？答案是会的，但我们这个乘法不关心溢出，因为我们根本不是为了获取相乘结果，而是为了获取index。</p>
+<h3 id="8、斐波那契（Fibonacci）散列法"><a href="#8、斐波那契（Fibonacci）散列法" class="headerlink" title="8、斐波那契（Fibonacci）散列法"></a>8、斐波那契（Fibonacci）散列法</h3><p>平方散列法的缺点是显而易见的，所以我们能不能找出一个理想的乘数，而不是拿value本身当作乘数呢？答案是肯定的。        </p>
+<ol>
+<li>对于16位整数而言，这个乘数是40503 </li>
+<li>对于32位整数而言，这个乘数是2654435769 </li>
+<li>对于64位整数而言，这个乘数是11400714819323198485</li>
+</ol>
+<p>这几个“理想乘数”是如何得出来的呢？这跟一个法则有关，叫黄金分割法则，而描述黄金分割法则的最经典表达式无疑就是著名的斐波那契数列，即如此形式的序列：0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233,377, 610， 987, 1597, 2584, 4181, 6765, 10946，…。另外，斐波那契数列的值和太阳系八大行星的轨道半径的比例出奇吻合。</p>
+<p>对我们常见的32位整数而言，公式：<br><strong>index = (value * 2654435769) &gt;&gt; 28</strong></p>
+<p>如果用这种斐波那契散列法的话，那上面的图就变成这样了：<br><img src="https://img-blog.csdnimg.cn/20191121225628874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>注：用斐波那契散列法调整之后会比原来的取摸散列法好很多。      </p>
+<p>适用范围:<br>快速查找，删除的基本数据结构，通常需要总数据量可以放入内存。          </p>
+<p>基本原理及要点:<br>hash函数选择，针对字符串，整数，排列，具体相应的hash方法。<br>碰撞处理，一种是open hashing，也称为拉链法；另一种就是closed hashing，也称开地址法，opened addressing。     </p>
+<h2 id="散列冲突的解决方案："><a href="#散列冲突的解决方案：" class="headerlink" title="散列冲突的解决方案："></a>散列冲突的解决方案：</h2><ol>
+<li><p>建立一个缓冲区，把凡是拼音重复的人放到缓冲区中。当我通过名字查找人时，发现找的不对，就在缓冲区里找。</p>
+</li>
+<li><p>进行再探测。就是在其他地方查找。探测的方法也可以有很多种。</p>
+<ul>
+<li><p>在找到查找位置的index的index-1，index+1位置查找，index-2，index+2查找，依次类推。这种方法称为线性再探测。</p>
+<ul>
+<li><p>在查找位置index周围随机的查找。称为随机在探测。</p>
+</li>
+<li><p>再哈希。就是当冲突时，采用另外一种映射方式来查找。</p>
+</li>
+</ul>
+<p>这个程序中是通过取模来模拟查找到重复元素的过程。对待重复元素的方法就是再哈希：对当前key的位置+7。最后，可以通过全局变量来判断需要查找多少次。我这里通过依次查找26个英文字母的小写计算的出了总的查找次数。显然，当总的查找次数/查找的总元素数越接近1时，哈希表更接近于一一映射的函数，查找的效率更高。 </p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="哈希冲突解决办法："><a href="#哈希冲突解决办法：" class="headerlink" title="哈希冲突解决办法："></a>哈希冲突解决办法：</h2><p>冲突必然的!<br>因为用短位(散列地址空间)表示长位数据(关键码空间)，肯定会出现冲突。比如 常见的 MD5码，一共就128bit，但却要表示无限的数据的散列码，因此必然会出现不同数据具有相同MD5码的情况。<br>如果遇到冲突，哈希表一般是怎么解决的呢？具体方法有很多，百度也会有一堆，最常用的就是开发定址法和链地址法。</p>
+<p>冲突排解策略分为以下两种类型：           </p>
+<ol>
+<li><p><strong>开放定址(open addressing) / 闭散列(closed hashing)：</strong><br> 散列地址空间对所有词条开放（即 桶单元允许装hash(key)不对应的词条）；词条存储地址(散列地址)仅限于散列表所覆盖的范围之内。<br> 如：线性试探、查找链法等。<br> 注：因闭散列不得使用附加空间的原因，装填因子通常&lt;=0.5     </p>
+</li>
+<li><p><strong>封闭定址(closed addressing) / 开散列(open hashing)：</strong><br> 散列地址空间只对对应的词条开放；词条存储地址不局限于散列表范围之内。<br> 如：多槽位法、独立链法、公共溢出区等</p>
+</li>
+</ol>
+<h3 id="1、多槽位法（multiple-slots）"><a href="#1、多槽位法（multiple-slots）" class="headerlink" title="1、多槽位法（multiple slots）"></a>1、多槽位法（multiple slots）</h3><p>思路:<br><img src="https://img-blog.csdnimg.cn/20191121225802634.jpg" alt=""><br>每个桶本身再细分为若干槽位，用于存放彼此冲突的词条。每个桶槽位的词典结构为向量，因此整体物理存储结构类似于二维数组。             如：put操作，首先通过hash(key)定位到对应的桶单元，并在该桶内部槽位中进一步查找key，若没找到，则创建新词条插入到该桶的空闲槽位中。<br>缺点:      </p>
+<ul>
+<li>绝大多数的槽位都处于空闲状态，造成空间浪费。若桶被细分为k个槽位，则装填因子将直接降低为原来的1/k.</li>
+<li>很难实现确定应该细分为多少个槽位，才能保证够用。</li>
+</ul>
+<h3 id="2、-独立链法-separate-chaining-拉链法"><a href="#2、-独立链法-separate-chaining-拉链法" class="headerlink" title="2、 独立链法(separate chaining) / 拉链法"></a>2、 独立链法(separate chaining) / 拉链法</h3><p>思路:<br><img src="https://img-blog.csdnimg.cn/20191121225828805.jpg" alt=""><br>与多槽位思想类似，但每个桶的子词典是使用链表实现，令彼此冲突的词条互相串接。<br><strong>优点：</strong><br>能灵活动态地调整子词典的规模，有效地使用空间。<br><strong>缺点:</strong><br>空间未必连续分布，会导致系统缓存失效。<br><img src="https://img-blog.csdnimg.cn/20191121225854306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="3、公共溢出区"><a href="#3、公共溢出区" class="headerlink" title="3、公共溢出区"></a>3、公共溢出区</h3><p>原理:<br><img src="https://img-blog.csdnimg.cn/20191121225934334.jpg" alt=""><br>在原散列表之外另设一个词典结构$D_{overflow}$，插入词条一旦发生冲突，则转存到该词典中。$D_{overflow}$相当于存放冲突词条的公共缓冲池。</p>
+<h3 id="4-线性探查法-【Linear-Probing】"><a href="#4-线性探查法-【Linear-Probing】" class="headerlink" title="4.线性探查法 【Linear Probing】"></a>4.线性探查法 【Linear Probing】</h3><p>当得到key的hash值H(key)，但是表中下标为H(key)的位置已经被某个其他元素使用了，那么就检查下一个位置H(key) + 1 是否被占，如果没有，就使用这个位置；否则就继续检查下一个位置（也就是将hash值H(key)不断加1）。如果检查过程中超过了表长，那么就回到表的首位继续循环，直到找到一个可以使用的位置，或者是发现表中所有位置都已被使用。显然，这个做法容易导致扎堆，即表中连续若干个位置都被使用，这在一定程度上会降低效率。 </p>
+<h3 id="5-采用平方探查法【Quadratic-Probing】"><a href="#5-采用平方探查法【Quadratic-Probing】" class="headerlink" title="5.采用平方探查法【Quadratic Probing】"></a>5.采用平方探查法【Quadratic Probing】</h3><p>通过将给定元素值对表长的余数作为在哈希表中的插入位置，如果出现冲突，采用平方探查法解决。平方探查法的具体过程是，假设给定元素值为a，表长为M，插入位置为a%M，假设a%M位置已有元素，即发生冲突，则查找<br>(a+1^2)%M，(a-1^2)%M，   (a+2^2)%M，(a-2^2)%M，⋯⋯，   (a+k^2)%M，(a-k^2)%M直至查找到一个可进行插入的位置，否则当查找到(a+k^2)%M，(a-k^2)%M仍然不能插入则该元素插入失败。其中 k&lt;=M/2 【有的是k&lt;M】  </p>
+<p>此方法中，hashtable的大小为素数</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><h3 id="具体查找逻辑"><a href="#具体查找逻辑" class="headerlink" title="具体查找逻辑"></a>具体查找逻辑</h3><p>查找链(probing chain)：对于待查找的key，从hash(key)桶单元开始，直接空桶结束的顺序序列。       </p>
+<ol>
+<li>经hash(key)算得的当前桶单元，若关键码相等，则成功返回。      </li>
+<li>当前桶单元非空，但关键码不等，则转入下一桶单元继续试探。         </li>
+<li>当前桶为空，则返回查找失败。             </li>
+</ol>
+<p><strong>注：</strong><br>相互冲突的关键码比属于同一查找链（即中途不包含空桶），但同一查找链的关键码未必相互冲突。多组各自冲突的关键码所对应的查找链，有可能相互交织和重叠。<br><strong>优点：</strong><br>具体由良好的数据局部性，试探地桶单元在物理空间上依次连贯，系统缓存能发挥作用。</p>
+<h3 id="懒惰删除："><a href="#懒惰删除：" class="headerlink" title="懒惰删除："></a>懒惰删除：</h3><p>定义：<br>从词典删除词条时，暂时并不实际将桶置空，而是额外维护一个删除标记Bitmap，标记该桶已删除。<br>为什么需要懒惰删除？<br>因为查找链中任何一环的缺失，都会导致后续词条的“丢失”，即无法找到已存在词条；同时因为开销问题，不可能每次删除操作都对查找链进行维护重建（在扩容时，才重建链）。<br>因此懒惰删除机制既能保证查找链的完整，也不需要太多开销。<br>加入懒惰删除后，操作逻辑的变化：         </p>
+<ol>
+<li>在删除等操作查询指定词条时，判断失败的条件变为：为空且不带懒惰删除标记。           </li>
+<li>在插入操作时，找空桶过程中，判断桶为空条件为：带有懒惰标记或当前桶为空。        </li>
+</ol>
+<h3 id="d-left-hashing："><a href="#d-left-hashing：" class="headerlink" title="d-left hashing："></a>d-left hashing：</h3><p>其中的d是多个的意思，我们先简化这个问题，看一看2-left hashing。<br>2-left hashing指的是将一个哈希表分成长度相等的两半，分别叫做T1和T2，给T1和T2分别配备一个哈希函数，h1和h2。在存储一个新的key时，同 时用两个哈希函数进行计算，得出两个地址h1[key]和h2[key]。这时需要检查T1中的h1[key]位置和T2中的h2[key]位置，哪一个 位置已经存储的（有碰撞的）key比较多，然后将新key存储在负载少的位置。如果两边一样多，比如两个位置都为空或者都存储了一个key，就把新key 存储在左边的T1子表中，2-left也由此而来。在查找一个key时，必须进行两次hash，同时查找两个位置。 </p>
+<h3 id="问题实例（海量数据处理）"><a href="#问题实例（海量数据处理）" class="headerlink" title="问题实例（海量数据处理）"></a>问题实例（海量数据处理）</h3><p>我们知道hash 表在海量数据处理中有着广泛的应用，下面，请看另一道百度面试题：<br>题目：海量日志数据，提取出某日访问百度次数最多的那个IP。<br>方案：IP的数目还是有限的，最多2^32个，所以可以考虑使用hash将ip直接存入内存，然后进行统计。           </p>
+<h2 id="hash-map的使用："><a href="#hash-map的使用：" class="headerlink" title="hash_map的使用："></a>hash_map的使用：</h2><p>hash函数系统自带的类型函数：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">></span>
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">></span>
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">></span> 
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span><span class="token operator">></span> 
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">signed</span> <span class="token keyword">char</span><span class="token operator">></span>
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">short</span><span class="token operator">></span>
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">unsigned</span> <span class="token keyword">short</span><span class="token operator">></span> 
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> 
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token operator">></span>
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">long</span><span class="token operator">></span> 
+<span class="token keyword">struct</span> hash<span class="token operator">&lt;</span><span class="token keyword">unsigned</span> <span class="token keyword">long</span><span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>普通的hash使用：  </p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">hash_map<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span>map1<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>自定义hash函数的使用：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">hash_map<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> string<span class="token punctuation">,</span> hash<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">,</span> equal_to<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">></span> mymap<span class="token punctuation">;</span> 
+hash函数的自定义与默认函数：
+<span class="token keyword">struct</span> str_hash
+<span class="token punctuation">{</span>      <span class="token comment" spellcheck="true">//自写hash函数    </span>
+     size_t <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> str<span class="token punctuation">)</span> <span class="token keyword">const</span>  
+     <span class="token punctuation">{</span>   
+        <span class="token keyword">unsigned</span> <span class="token keyword">long</span> __h <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> 
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> i <span class="token operator">&lt;</span> str<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span>   
+         <span class="token punctuation">{</span>   
+                  __h <span class="token operator">=</span> <span class="token number">107</span><span class="token operator">*</span>__h <span class="token operator">+</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>    
+         <span class="token punctuation">}</span>   
+         <span class="token keyword">return</span> <span class="token function">size_t</span><span class="token punctuation">(</span>__h<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+      <span class="token punctuation">}</span>    
+<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true">// struct str_hash</span>
+<span class="token comment" spellcheck="true">// {    //自带的string hash函数   </span>
+<span class="token comment" spellcheck="true">//          size_t operator()(const string&amp; str) const    </span>
+<span class="token comment" spellcheck="true">//          {  </span>
+<span class="token comment" spellcheck="true">//                   return __stl_hash_string(str.c_str());  </span>
+<span class="token comment" spellcheck="true">//          }    </span>
+<span class="token comment" spellcheck="true">// };</span>
+
+<span class="token comment" spellcheck="true">//  struct hash&lt;int> </span>
+<span class="token comment" spellcheck="true">//  {        //自带的int hash函数   </span>
+<span class="token comment" spellcheck="true">//     size_t operator()(int __x) const { return __x; }</span>
+<span class="token comment" spellcheck="true">// }; </span>
+<span class="token keyword">struct</span> str_equal  <span class="token comment" spellcheck="true">//即压入数据时，去重的比较函数</span>
+<span class="token punctuation">{</span>      <span class="token comment" spellcheck="true">//string 判断相等函数  </span>
+     <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> s1<span class="token punctuation">,</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> s2<span class="token punctuation">)</span> <span class="token keyword">const</span>  
+     <span class="token punctuation">{</span>    
+             <span class="token keyword">return</span> s1<span class="token operator">==</span>s2<span class="token punctuation">;</span>   
+     <span class="token punctuation">}</span>    
+<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+注意hash函数只指的是第一个元素类型 
+hash_map<span class="token operator">&lt;</span>string<span class="token punctuation">,</span><span class="token keyword">int</span><span class="token punctuation">,</span>str_hash<span class="token punctuation">,</span>str_equal<span class="token operator">></span> map2<span class="token punctuation">;</span>   
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="hash-map的案例——布隆过滤器"><a href="#hash-map的案例——布隆过滤器" class="headerlink" title="hash_map的案例——布隆过滤器"></a>hash_map的案例——布隆过滤器</h2><p>不安全网页的黑名单包含100亿个黑名单网页，每个网页的URL最多占用64B。现在想要实现一种网页过滤系统，可以根据网页的URL判断该网页是否在黑名单上，请设计该系统。<br>要求如下：            </p>
+<ul>
+<li>该系统允许有万分之一以下的判断失误率。         </li>
+<li>使用的额外空间不要超过30GB。            </li>
+<li>如果将这100亿个URL通过数据库或哈希表保存起来，就可以对每条URL进行查询，但是每个URL有64B，数量是100亿个，所以至少需要640GB的空间，不满足要求2。         </li>
+</ul>
+<p>如果面试者遇到网页黑名单系统、垃圾邮件过滤系统，爬虫的网页判重系统等题目，又看到系统容忍一定程度的失误率，但是对空间要求比较严格，那么很可能是面试官希望面试者具备布隆过滤器的知识。一个布隆过滤器精确地代表一个集合，并可以精确判断一个元素是否在集合中。注意，只是精确代表和精确判断，到底有多精确呢？则完全在于你具体的设计，但想做到完全正确是不可能的。布隆过滤器的优势就在于使用很少的空间就可以将准确率做到很高的程度。该结构由Burton Howard Bloom于1970年提出。  </p>
+<p>那么什么是布隆过滤器呢？</p>
+<p>假设有一个长度为m的bit类型的数组，即数组的每个位置只占一个bit，如果我们所知，每一个bit只有0和1两种状态，如图所示：<br><img src="https://img-blog.csdnimg.cn/20191121230117995.jpg" alt=""></p>
+<p>再假设一共有k个哈希函数，这些函数的输出域S都大于或等于m，并且这些哈希函数都足够优秀且彼此之间相互独立（将一个哈希函数的计算结果乘以6除以7得出的新哈希函数和原函数就是相互独立的）。那么对同一个输入对象（假设是一个字符串，记为URL），经过k个哈希函数算出来的结果也是独立的。可能相同，也可能不同，但彼此独立。对算出来的每一个结果都对m取余（%m），然后在bit array 上把相应位置设置为1（我们形象的称为涂黑）。如图所示<br><img src="https://img-blog.csdnimg.cn/20191121230129649.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>我们把bit类型的数组记为bitMap。至此，一个输入对象对bitMap的影响过程就结束了，也就是bitMap的一些位置会被涂黑。接下来按照该方法，处理所有的输入对象（黑名单中的100亿个URL）。每个对象都可能把bitMap中的一些白位置涂黑，也可能遇到已经涂黑的位置，遇到已经涂黑的位置让其继续为黑即可。处理完所有的输入对象后，可能bitMap中已经有相当多的位置被涂黑。至此，一个布隆过滤器生成完毕，这个布隆过滤器代表之前所有输入对象组成的集合。 </p>
+<p>那么在检查阶段时，如何检查一个对象是否是之前的某一个输入对象呢（判断一个URL是否是黑名单中的URL）？假设一个对象为a，想检查它是否是之前的输入对象，就把a通过k个哈希函数算出k个值，然后把k个值都取余（%m），就得到在[0,m-1]范围伤的k个值。接下来在bitMap上看这些位置是不是都为黑。如果有一个不为黑，说明a一定不再这个集合里。如果都为黑，说明a在这个集合里，但可能误判。<br>再解释具体一点，如果a的确是输入对象 ，那么在生成布隆过滤器时，bitMap中相应的k个位置一定已经涂黑了，所以在检查阶段，a一定不会被漏过，这个不会产生误判。会产生误判的是，a明明不是输入对象，但如果在生成布隆过滤器的阶段因为输入对象过多，而bitMap过小，则会导致bitMap绝大多数的位置都已经变黑。那么在检查a时，可能a对应的k个位置都是黑的，从而错误地认为a是输入对象（即是黑名单中的URL）。通俗地说，布隆过滤器的失误类型是“宁可错杀三千，绝不放过一个”。</p>
+<p>布隆过滤器到底该怎么生成呢？只需记住下列三个公式即可：<br>对于输入的数据量n（这里是100亿）和失误率p（这里是万分之一），布隆过滤器的大小<br>m：m = - (n*lnp)/(ln2*ln2)，计算结果向上取整（这道题m=19.19n，向上取整为20n，即需要2000亿个bit，也就是25GB）<br>需要的哈希函数的个数k：k = ln2 * m/n = 0.7 * m/n（这道题k = 0.7 * 20n/n = 14）<br>由于前两步都进行了向上取整，那么由前两步确定的布隆过滤器的真正失误率p：p = (1 - e^(-nk/m))^k </p>
+<h2 id="一致性哈希算法的基本原理"><a href="#一致性哈希算法的基本原理" class="headerlink" title="一致性哈希算法的基本原理"></a>一致性哈希算法的基本原理</h2><p><strong>题目</strong></p>
+<p>工程师常使用服务器集群来设计和实现数据缓存，以下是常见的策略：<br>无论是添加、查询还是珊瑚数据，都先将数据的id通过哈希函数换成一个哈希值，记为key<br>如果目前机器有N台，则计算key%N的值，这个值就是该数据所属的机器编号，无论是添加、删除还是查询操作，都只在这台机器上进行。<br>请分析这种缓存策略可能带来的问题，并提出改进的方案。      </p>
+<p><strong>解析</strong>    </p>
+<p>题目中描述的缓存从策略的潜在问题是，如果增加或删除机器时（N变化）代价会很高，所有的数据都不得不根据id重新计算一遍哈希值，并将哈希值对新的机器数进行取模啊哦做。然后进行大规模的数据迁移。<br>为了解决这些问题，下面介绍一下一致性哈希算法，这时一种很好的数据缓存设计方案。我们假设数据的id通过哈希函数转换成的哈希值范围是2^32，也就是0~(2^32)-1的数字空间中。现在我们可以将这些数字头尾相连，想象成一个闭合的环形，那么一个数据id在计算出哈希值之后认为对应到环中的一个位置上，如图所示<br><img src="https://img-blog.csdnimg.cn/20191121230147583.jpg" alt=""></p>
+<p>接下来想象有三台机器也处在这样一个环中，这三台机器在环中的位置根据机器id（主机名或者主机IP，是主机唯一的就行）设计算出的哈希值对2^32取模对应到环上。那么一条数据如何确定归属哪台机器呢？我们可以在该数据对应环上的位置顺时针寻找离该位置最近的机器，将数据归属于该机器上:<br><img src="https://img-blog.csdnimg.cn/2019112123020021.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=" "></p>
+<p>这样的话，如果删除machine2节点，则只需将machine2上的数据迁移到machine3上即可，而不必大动干戈迁移所有数据。当添加节点的时候，也只需将新增节点到逆时针方向新增节点前一个节点这之间的数据迁移给新增节点即可。 </p>
+<p>但这时还是存在如下两个问题：</p>
+<p>机器较少时，通过机器id哈希将机器对应到环上之后，几个机器可能没有均分环<br><img src="https://img-blog.csdnimg.cn/20191121230241965.jpg" alt=""><br>那么这样会导致负载不均。</p>
+<p>增加机器时，可能会打破现有的平衡：<br><img src="https://img-blog.csdnimg.cn/2019112123025041.jpg" alt=""> </p>
+<p>为了解决这种数据倾斜问题，一致性哈希算法引入了虚拟节点机制，即对每一台机器通过不同的哈希函数计算出多个哈希值，对多个位置都放置一个服务节点，称为虚拟节点。</p>
+<p>具体做法：比如对于machine1的IP192.168.25.132（或机器名），计算出192.168.25.132-1、192.168.25.132-2、192.168.25.132-3、192.168.25.132-4的哈希值，然后对应到环上，其他的机器也是如此，这样的话节点数就变多了，根据哈希函数的性质，平衡性自然会变好：<br><img src="https://img-blog.csdnimg.cn/20191121230259813.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjYzNzQ5NQ==,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>此时数据定位算法不变，只是多了一步虚拟节点到实际节点的映射，比如上图的查找表。当某一条数据计算出归属于m2-1时再根据查找表的跳转，数据将最终归属于实际的m1节点。</p>
+<p>基于一致性哈希的原理有很多种具体的实现，包括Chord算法、KAD算法等，有兴趣的话可以进一步学习。</p>
+<h2 id="RandomPool"><a href="#RandomPool" class="headerlink" title="RandomPool"></a>RandomPool</h2><p>设计一种结构，在该结构中有如下三个功能：        </p>
+<ul>
+<li>inserrt(key)：将某个key加入到该结构中，做到不重复加入。          </li>
+<li>delete(key)：将原本在结构中的某个key移除。    </li>
+<li>getRandom()：等概率随机返回结构中的任何一个key。<br>要求：insert、delete和getRandom方法的时间复杂度都是O(1)<br>思路：使用两个哈希表和一个变量size，一个表存放某key的标号，另一个表根据根据标号取某个key。size用来记录结构中的数据量。加入key时，将size作为该key的标号加入到两表中；删除key时，将标号最大的key替换它并将size–；随机取key时，将size范围内的随机数作为标号取key。</li>
+</ul>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">class</span> <span class="token class-name">RandomPool</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+<span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">del</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+T <span class="token function">getRandom</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">getPrint</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">getPrint</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">private</span><span class="token operator">:</span>
+hash_map<span class="token operator">&lt;</span>T<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span>KeyMap<span class="token punctuation">;</span>
+hash_map<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> T<span class="token operator">></span>IndexMap<span class="token punctuation">;</span>
+<span class="token keyword">int</span> size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">void</span> RandomPool<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">::</span><span class="token function">insert</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>KeyMap<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">==</span> KeyMap<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+KeyMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size<span class="token punctuation">;</span>
+IndexMap<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size<span class="token punctuation">]</span> <span class="token operator">=</span> key<span class="token punctuation">;</span>
+<span class="token operator">++</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"add succeed!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">else</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"add filed!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">void</span> RandomPool<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">::</span><span class="token function">del</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">auto</span> ptr <span class="token operator">=</span> KeyMap<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>ptr <span class="token operator">==</span> KeyMap<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"delete filed! there is not exsite the key!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//交换查找到元素与最后一个元素</span>
+T temp <span class="token operator">=</span> IndexMap<span class="token punctuation">[</span><span class="token operator">--</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//最后一个元素的关键词,同时将hash表中的元素删除了</span>
+<span class="token keyword">int</span> index <span class="token operator">=</span> KeyMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//要删除元素的位置</span>
+KeyMap<span class="token punctuation">[</span>temp<span class="token punctuation">]</span> <span class="token operator">=</span> index<span class="token punctuation">;</span>
+IndexMap<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//将最后一个元素替换要删除元素的位置</span>
+<span class="token comment" spellcheck="true">//正式删除</span>
+KeyMap<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+IndexMap<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>IndexMap<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+T RandomPool<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">::</span><span class="token function">getRandom</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"the map is empty!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token punctuation">(</span><span class="token number">99</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">99</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">></span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//随机生成一个位置</span>
+<span class="token keyword">return</span> IndexMap<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">void</span> RandomPool<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">::</span><span class="token function">getPrint</span><span class="token punctuation">(</span>T key<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>KeyMap<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">==</span> KeyMap<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"the key is not exsite!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token keyword">else</span>
+cout <span class="token operator">&lt;&lt;</span> KeyMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">void</span> RandomPool<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">::</span><span class="token function">getPrint</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>IndexMap<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span> <span class="token operator">==</span> IndexMap<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"the key is not exsite!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token keyword">else</span>
+cout <span class="token operator">&lt;&lt;</span> IndexMap<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token operator">&lt;</span>code <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"lang-java"</span><span class="token operator">></span>import java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>HashMap<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RandomPool</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+<span class="token keyword">public</span> HashMap<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Integer<span class="token operator">></span> keySignMap<span class="token punctuation">;</span>
+<span class="token keyword">public</span> HashMap<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Object<span class="token operator">></span> signKeyMap<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token function">RandomPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>keySignMap <span class="token operator">=</span> <span class="token keyword">new</span> HashMap<span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>signKeyMap <span class="token operator">=</span> <span class="token keyword">new</span> HashMap<span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span>Object key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//不重复添加</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>keySignMap<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    keySignMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    signKeyMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>size<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    size<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token keyword">delete</span><span class="token punctuation">(</span>Object key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>keySignMap<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Object lastKey <span class="token operator">=</span> signKeyMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token operator">--</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> deleteSign <span class="token operator">=</span> keySignMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        keySignMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>lastKey<span class="token punctuation">,</span> deleteSign<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signKeyMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>deleteSign<span class="token punctuation">,</span> lastKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        keySignMap<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signKeyMap<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>lastKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> Object <span class="token function">getRandom</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> signKeyMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="认识一致性哈希"><a href="#认识一致性哈希" class="headerlink" title="认识一致性哈希"></a>认识一致性哈希</h2><p>使用二分法，找到hash值大于等于该值的hash值的服务器即为管理该值的服务器<br>一致性哈希的应用：<br>当我们要添加或减少服务器时，一般操作是将已存的值重新计算hash值，然后取mod，来决定管理该数据的服务器，代价太高，时间太长</p>
+<p>于是使用一个环来减少操作：<br>将hash范围组成一个环，如图所示，然后将服务器按其hash值按顺序数组中，<br>然后每输入一个数据，根据其hash值，使用二分法将其放入刚刚&gt;=该数hash值的服务器。<br>当添加服务器时，【假如添加一个服务器mx在m1-m2之间】只需要将原m1-m2中一部分小于mx的数据改为有mx来管理。<br>如何确保服务器负载均衡【因为服务器的hash值不均匀】？<br>使用一致hash<br>将每个服务器产生N个虚拟服务器，如1000个，则有3个服务器就有3000个虚拟服务器，然后让3000个虚拟去负载整个hash范围，那么这三个服务器的虚拟服务器所管理的数据就几乎均分分布在整个hash域中<br>那么就认为这3个服务器的负载均衡。<br>添加与删除原理也是如此。              </p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top" rel="external nofollow noreferrer">zzw</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top/2019/12/23/shu-ju-jie-gou-hash-biao-xiang-jie/">http://www.zzw1024.top/2019/12/23/shu-ju-jie-gou-hash-biao-xiang-jie/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.zzw1024.top" target="_blank">zzw</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/hash/">
+                                    <span class="chip bg-color">hash</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">谢谢你请我吃糖果</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/img/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/img/weChatPay.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+    var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: 'bolg-comment',
+    owner: '',
+    admin: [''],
+    id: 'Mon Dec 23 2019 09:59:35 GMT+0800',
+    distractionFreeMode: ''
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/12/23/shu-ju-jie-gou-shi-da-jing-dian-pai-xu-suan-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="数据结构——十大经典排序算法">
+                        
+                        <span class="card-title">数据结构——十大经典排序算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            影响排序性能的要素：时间性能辅助空间算法的复杂度
+简单排序【n^2】算法思想：第一趟：从第一个记录开始，通过n-1次关键字比较，从n个记录中选出最小的并和第一个记录交换；第二趟：从第二个记录开始，通过n-2次关键字比较，从n -1个记录中选
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-23
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                    数据结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%8E%92%E5%BA%8F/">
+                        <span class="chip bg-color">排序</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/22/shu-ju-jie-gou-hong-hei-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="数据结构——红黑树">
+                        
+                        <span class="card-title">数据结构——红黑树</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言红黑树的起源，自然是二叉查找树了，这种树结构从根节点开始，左子节点小于它，右子节点大于它。每个节点都符合这个特性，所以易于查找，是一种很好的数据结构。但是它有一个问题，就是容易偏向某一侧，这样就像一个链表结构了，失去了树结构的优点，查找
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                    数据结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">
+                        <span class="chip bg-color">红黑树</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 自由の翼<br />'
+            + '作者: 自由の翼<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.zzw1024.top" target="_blank">自由の翼</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "11";
+                    var startDate = "11";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/zzwblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="https://blog.csdn.net/weixin_42637495" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN" data-position="top" data-delay="50">
+        <i class="fab fa-dribbble"></i>
+    </a>
+
+
+
+    <a href="https://www.cnblogs.com/zzw1024/" class="tooltipped" target="_blank" data-tooltip="访问我的博客园" data-position="top" data-delay="50">
+        <i class="fa fa-rss-square"></i>
+    </a>
+
+
+
+    <a href="mailto:819342493@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://pic3.superbed.cn/item/5de4fcd8f1f6f81c50366b77.png" class="tooltipped" target="_blank" data-tooltip="请加我QQ" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://pic1.superbed.cn/item/5de4fd1bf1f6f81c50367398.png" class="tooltipped" target="_blank" data-tooltip="请加我微信" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        bp.src = '//push.zhanzhang.baidu.com/push.js';
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+      <script type="text/javascript" src="/js/snow.js"></script>
+    
+
+
+    <!-- <script async type="text/javascript" size="90" alpha="0.2" zIndex="0" src="/plugins/ribbon.js/ribbon.min.js"></script> -->
+    
+    
+        <script type="text/javascript" src="/plugins/live2d-widget.js/L2Dwidget.min.js"></script>
+<script type="text/javascript">
+  /**
+   * 完整配置请参考：https://l2dwidget.js.org/docs/class/src/index.js~L2Dwidget.html#instance-method-init
+   */
+  var pluginModelPath = "assets/", // 模型的文件路径，无需更改
+    pluginRootPath = "/live2d_models/"; // 插件的路径，无需更改
+  //特定的模型json文件名称
+  var modelPathJson = {
+    "epsilon2_1": "Epsilon2.1",
+    "gf": "Gantzert_Felixander",
+    "haru/01": "haru01",
+    "haru/02": "haru02",
+    "nietzsche": "nietzche"
+  }
+
+  
+    var modelName = "shizuku";
+  
+
+  var modelJsonPath = "";
+  if (modelPathJson[modelName]) {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelPathJson[modelName] +
+      ".model.json";
+  } else {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelName + ".model.json";
+  }
+  L2Dwidget.init({
+    model: {
+      jsonPath: modelJsonPath
+    },
+    display: {
+       position: "right", 
+       width: 145, 
+       height: 315, 
+       hOffset: 50, 
+       vOffset: 35 
+    },
+    mobile: {
+       show: false, 
+       scale: 0.6 
+    },
+    react: {
+       opacity: 0.8 
+    }
+  })
+
+</script>
+
+    
+
+    <!-- 音乐 -->
+     
+
+    <!-- 天气 -->
+     
+        <!-- weather -->
+<script type="text/javascript">
+    WIDGET = {FID: 'iBarNbUMlb'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+    
+
+
+</body>
+
+</html>

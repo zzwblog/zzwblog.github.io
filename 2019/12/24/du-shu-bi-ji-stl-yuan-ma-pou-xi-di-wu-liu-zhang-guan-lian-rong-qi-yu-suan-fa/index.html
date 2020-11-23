@@ -1,0 +1,1660 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="读书笔记——《STL源码剖析》（第五、六章：关联容器与算法）, 一个人的成长">
+    <meta name="description" content="第五章、关联容器5.0、关联容器
+标准的STL关联式容器分为set（集合）和map（映射表）两大类，以及这两大类的衍生体multiset（多键集合）和multimap（多键映射表）。这些容器的底层机制均以RB-tree（红黑树）完成。RB-">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>读书笔记——《STL源码剖析》（第五、六章：关联容器与算法） | 自由の翼</title>
+    <link rel="icon" type="image/jpeg" href="/img/111.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+
+    <script data-ad-client="ca-pub-6292651392430027" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="alternate" href="/atom.xml" title="自由の翼" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/img/logo1.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">自由の翼</span>
+
+                    
+                    
+                    <script>
+                      /* 标签页标题切换 */
+                      var originTitle = document.title;
+                      var titleTime;
+                      document.addEventListener("visibilitychange", function () {
+                        if (document.hidden) {
+                          document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                          clearTimeout(titleTime);
+                        } else {
+                          document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                          titleTime = setTimeout(function () {
+                            document.title = originTitle;
+                          }, 2000);
+                        }
+                      });
+                    </script>
+                    
+
+                    
+
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/goodpapers" class="waves-effect waves-light">
+      
+      <i class="fas fa-coffee" style="zoom: 0.6;"></i>
+      
+      <span>收藏</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="margin-right: -100px; zoom: 0.6;"></i>
+    </a>
+  </li>
+
+  <li>
+  <a>
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+  </a>
+  </li>
+  <li>
+  <a></a>
+  </li>
+
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/img/logo1.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">自由の翼</div>
+        <div class="logo-desc">
+            
+            只愿今朝逢知己，共同成长
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Home
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/goodpapers" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-coffee"></i>
+			
+			Goodpapers
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zzw1024" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zzw1024" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">读书笔记——《STL源码剖析》（第五、六章：关联容器与算法）</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/STL%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+                                <span class="chip bg-color">STL源码剖析</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="post-category">
+                                读书笔记
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+
+                <div class="info-break-policy">
+                    
+                        <i class="fa fa-user"></i> 作者:&nbsp;&nbsp;
+                        zzw         
+                    
+                </div>
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-12-24
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-12-24
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="第五章、关联容器"><a href="#第五章、关联容器" class="headerlink" title="第五章、关联容器"></a>第五章、关联容器</h1><h2 id="5-0、关联容器"><a href="#5-0、关联容器" class="headerlink" title="5.0、关联容器"></a>5.0、关联容器</h2><ul>
+<li><p>标准的STL关联式容器分为set（集合）和map（映射表）两大类，以及这两大类的衍生体multiset（多键集合）和multimap（多键映射表）。这些容器的底层机制均以RB-tree（红黑树）完成。RB-tree也是一个独立容器，但并不开放给外界使用。</p>
+</li>
+<li><p>SGISTL还提供了一个不在标准规格之列的关联式容器：hash_table（散列表），以及以此hash_table为底层机制而完成的hash_set（散列集合）、hash_map（散列映射表）、hash_multiset（散列多键集合）、hash_multimap（散列多键映射表）。<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235640834-174846146.png" alt=""></p>
+</li>
+<li><p>所谓关联式容器，观念上类似关联式数据库：每笔数据（每个元素）都有一个键值（key）和一个实值（value）。当元素被插入到关联式容器中时，容器内部结构（可能是RB-tree，也可能是hash-table）便依照其键值大小，以某种特定规则将这个元素放置于适当位置。关联式容器没有所谓头尾（只有最大元素和最小元素），所以不会有所谓 push_back()、push_front()、pop_back()、pop_front()、begin()【即无法通过*.begin()取出数据】、endt()这样的操作行为。</p>
+</li>
+</ul>
+<h2 id="5-1、树的导览"><a href="#5-1、树的导览" class="headerlink" title="5.1、树的导览"></a>5.1、树的导览</h2><p>即讲解数据结构中的二叉树、二叉搜索树、平衡二叉树。。。</p>
+<h2 id="5-2、RB-tree（红黑树）"><a href="#5-2、RB-tree（红黑树）" class="headerlink" title="5.2、RB-tree（红黑树）"></a>5.2、RB-tree（红黑树）</h2><h3 id="红黑树定义及其特性"><a href="#红黑树定义及其特性" class="headerlink" title="红黑树定义及其特性"></a>红黑树定义及其特性</h3><ol>
+<li>每个节点或是黑色或是红色 </li>
+<li>根节点是黑色 </li>
+<li>每个叶节点是黑色（叶节点为空节点） </li>
+<li>如果一个节点是红色，则它的两个子节点必须是黑色 </li>
+<li>从任意的一个节点到该节点的所有叶节点的路径包含相同数目的黑色节点</li>
+<li>红黑树是一种平衡二叉树，当不是完全的平衡二叉树，红黑树只要求最多三次旋转来尽可能达到平衡<br> 【也就是说没有规定左子树与右子树的高度差必须&lt;=1!!!!!!】</li>
+</ol>
+<ul>
+<li>迭代器</li>
+<li><em>operator++*</em><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235713829-442804034.png" alt=""></li>
+</ul>
+<p><strong>operator–</strong><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235737458-1520435092.png" alt=""></p>
+<p><strong>自身迭代器</strong><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235806708-1498398018.png" alt=""></p>
+<p>关于红黑树的具体数据结构，请看<a href="http://zzw1024.top/2019/12/22/hong-hei-shu/" target="_blank" rel="noopener"><strong>博文</strong></a></p>
+<h2 id="5-3、-set"><a href="#5-3、-set" class="headerlink" title="5.3、 set"></a>5.3、 set</h2><ul>
+<li>set底层是由红黑树构造的 </li>
+<li>set key值不能重复</li>
+<li>set中的key值不允许改变</li>
+<li>STL特别提供了一组set/multiset相关算法，包括交集set_intersection、联集set_union、差集 set_difference、对称差集set_symmetric_difference。</li>
+</ul>
+<h2 id="5-4、map"><a href="#5-4、map" class="headerlink" title="5.4、map"></a>5.4、map</h2><ul>
+<li>map不可以通过迭代器修改键值，但可以修改实值</li>
+<li>map拥有list的某些性质：即增删改查其迭代器不会失效</li>
+<li>map几乎是在调用RBTree的接口函数</li>
+<li>map底层仍然是红黑树构造的</li>
+</ul>
+<h2 id="5-5、multiset"><a href="#5-5、multiset" class="headerlink" title="5.5、multiset"></a>5.5、multiset</h2><ul>
+<li>与set一样，只不过是允许键值存在重复</li>
+</ul>
+<h2 id="5-6、multimap"><a href="#5-6、multimap" class="headerlink" title="5.6、multimap"></a>5.6、multimap</h2><p>与map一样，但允许键值重复</p>
+<h2 id="5-7-、hashtable"><a href="#5-7-、hashtable" class="headerlink" title="5.7 、hashtable"></a>5.7 、hashtable</h2><ul>
+<li>详细讲解请见<a href="http://zzw1024.top/2019/12/23/hash-biao-xiang-jie/" target="_blank" rel="noopener"><strong>博文</strong></a>      </li>
+<li>hashtable没有向后的迭代器operator–()</li>
+</ul>
+<h2 id="5-8、hash-set"><a href="#5-8、hash-set" class="headerlink" title="5.8、hash_set"></a>5.8、hash_set</h2><p>hash_set拥有set的功能，底层使用的是hashtable，且不排序</p>
+<h2 id="5-9、hash-map"><a href="#5-9、hash-map" class="headerlink" title="5.9、hash_map"></a>5.9、hash_map</h2><p>hash_map拥有map的功能，但底层是由hashtable组成的，且无排序功能</p>
+<h2 id="5-10、hash-multiset"><a href="#5-10、hash-multiset" class="headerlink" title="5.10、hash_multiset"></a>5.10、hash_multiset</h2><ul>
+<li>与multiset功能完全相同，其底层换成了hashtable</li>
+<li>与hash_set的区别就是可以键值重复</li>
+</ul>
+<h2 id="5-11、-hash-multimap"><a href="#5-11、-hash-multimap" class="headerlink" title="5.11、 hash_multimap"></a>5.11、 hash_multimap</h2><p>hash_multimap与multimap的功能完全类似，但底层是以hashmap基本</p>
+<h1 id="第六章-算法algorithms"><a href="#第六章-算法algorithms" class="headerlink" title="第六章 算法algorithms"></a>第六章 算法algorithms</h1><h2 id="6-1、概述"><a href="#6-1、概述" class="headerlink" title="6.1、概述"></a>6.1、概述</h2><ul>
+<li><p>算法的五大特征如下：</p>
+<ul>
+<li>有穷性（Finiteness）。算法的有穷性是指算法必须能在执行有限个步骤之后终止；</li>
+<li>确切性(Definiteness)。算法的每一步骤必须有确切的定义；</li>
+<li>输入项(Input)。一个算法有0个或多个输入，以刻画运算对象的初始情况，所谓0个输入是指算法本身定出了初始条件；</li>
+<li>输出项(Output)。一个算法有一个或多个输出，以反映对输入数据加工后的结果。没有输出的算法是毫无意义的；</li>
+<li>可行性(Effectiveness)。算法中执行的任何计算步骤都是可以被分解为基本的可执行的操作步，即每个计算步都可以在有限时间内完成（也称之为有效性）。</li>
+</ul>
+</li>
+<li><p>时间复杂度<br>时间复杂度是衡量算法好坏的重要指标之一。时间复杂度反映的是不确定性样本量的增长对于算法操作所需时间的影响程度，与算法操作是否涉及到样本量以及涉及了几次直接相关，如遍历数组时时间复杂度为数组长度n（对应时间复杂度为O(n)），而对数据的元操作（如加减乘除与或非等）、逻辑操作（如if判断）等都属于常数时间内的操作（对应时间复杂度O(1)）。</p>
+</li>
+</ul>
+<p>在化简某算法时间复杂度表达式时需遵循以下规则：<br>对于同一样本量，可省去低阶次数项，仅保留高阶次数项，如O(n^2)+O(n)可化简为O(n^2)，O(n)+O(1)可化简为O(n)<br>可省去样本量前的常量系数，如O(2n)可化简为O(n)，O(8)可化简为O(1),对于不同的不确定性样本量，不能按照上述两个规则进行化简，要根据实际样本量的大小分析表达式增量。如O(logm)+O(n^2)不能化简为O(n^2)或O(logm)。而要视m、n两者之间的差距来化简，比如m&gt;&gt;n时可以化简为O(logm)，因为表达式增量是由样本量决定的。</p>
+<ul>
+<li><p>额外空间复杂度<br>算法额外空间复杂度指的是对于输入样本，经过算法操作需要的额外空间。比如使用冒泡排序对一个数组排序，期间只需要一个临时变量temp，那么该算法的额外空间复杂度为O(1)。又如归并排序，在排序过程中需要创建一个与样本数组相同大小的辅助数组，尽管在排序过后该数组被销毁，但该算法的额外空间复杂度为O(n)。</p>
+</li>
+<li><p>算法：<br>算法主要是由头文件<algorithm> <functional> <numeric>组成。<br><algorithm>是所有 STL 头文件中最大的一个,其中常用的功能涉及到比较，交换，查找,遍历，复制，修改，反转，排序，合并等…<br><numeric>体积很小，只包括在几个序列容器上进行的简单运算的模板函数.<br><functional> 定义了一些模板类,用以声明函数对象。          </p>
+</li>
+<li><p>STL算法概况</p>
+</li>
+<li><p><em>质变指定是算法的稳定性*</em><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235934523-639435368.png" alt=""><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191224235940226-890758197.png" alt=""><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000001776-1055970874.png" alt=""><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000010021-477313739.png" alt=""></p>
+</li>
+<li><p>质变的算法——会改变操作对象之值<br>所有的STL算法都作用在由迭代器[first，last）所标示出来的区间上。所谓“质变算法”，是指运算过程中会更改区间内（迭代器所指）的元素内容。诸如拷贝（copy）、互换（swap）、替换（replace）、填写（fill）、删除（remove）、排列组合（permutation）、分割（partition）、随机重排（random shuffling）、排序（sort）等算法，都属此类。</p>
+</li>
+<li><p>不质变的算法——不改变操作对象之值<br>所有的STL算法都作用在由迭代器[first，last）所标示出来的区间上。所谓“非质变算法”，是指运算过程中不会更改区间内（迭代器所指）的元素内容。<br>诸如查找（find）、匹配（search）、计数（count）、巡访（for_each）、比较（equal，mismatch）、寻找极值（max，min）等算法，都属此类。但是如果你在for_each（巡访每个元素）算法身上应用一个会改变元素内容的仿函数（functor）。   </p>
+</li>
+</ul>
+<h2 id="6-2、算法的泛化过程"><a href="#6-2、算法的泛化过程" class="headerlink" title="6.2、算法的泛化过程"></a>6.2、算法的泛化过程</h2><ul>
+<li>算法函数传参最好是传引用参数，这样可以避免由于对象的庞大而付出大的代价</li>
+<li>这样的find（）很好，几乎适用于任何容器——只要该容器允许指针指入，而指针们又都支持以下四种find（）函数中出现的操作行为：<ul>
+<li>inequality（判断不相等）操作符</li>
+<li>dereferencelm（提领，取值）操作符</li>
+<li>prefix increment（前置式递增）操作符</li>
+<li>copy（复制）行为（以便产a’x生函数的返回值）</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-3、数值算法"><a href="#6-3、数值算法" class="headerlink" title="6.3、数值算法"></a>6.3、数值算法<stl numeric.h></h2><ul>
+<li><p>头文件<numeric><br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000202562-1209119902.png" alt="">    </p>
+</li>
+<li><p>accumlate<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000222791-1493346367.png" alt=""></p>
+</li>
+</ul>
+<p>算法accumulate用来计算init和[first，last）内所有元素的总和。注意，你一定得提供一个初始值init，这么做的原因之一是当[first，last）为空区间时仍能获得一个明确定义的值。如果希望计算[first，1ast）中所有数值的总和，应该将init设为0.</p>
+<ul>
+<li>adjacent_difference<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000240388-361851450.png" alt=""></li>
+</ul>
+<p>算法adjacent_difference用来计算[first，last）中相邻元素的差额。也就是说，它将<em>first 赋值给</em>result，并针对[first+1，last）内的每个迭代器i，将<em>i-</em>（i-1）之值赋值给*（result+（i-first））。<br>注意，你可以采用就地（in place）运算方式，也就是令result等于first。</p>
+<ul>
+<li><p>inner_product<br>算法inner_product能够计算[first1，last1）和[first2，first2+<br>（1ast1-first1））的一般内积（generalized inner product）。注意，你一定得提供初值init。这么做的原因之一是当[first，last）为空时，仍可获得一个明确定义的结果。如果你想计算两个vectors的一般内积，应该将init设为0.</p>
+</li>
+<li><p>partical_sum<br>算法partial_sum用来计算局部总和。它会将<em>first赋值给</em>result，将<em>first和</em>（first+1）的和赋值给*（result+1），依此类推。注意，result可以等于first，这使我们得以完成就地（in place）计算。在这种情况下它是一个质变算法（mutating algorithm）。</p>
+</li>
+</ul>
+<p>运算中的总和首先初始为*first，然后赋值给<em>result。对于<br>[first+1，last）中每个迭代器i，从头至尾依序执行sum=sum+</em>i（第一版本）或sum=binary_op（sum，<em>i）（第二版本），然后再将sum赋值给</em>（result+（i-first））。此式所用之二元仿函数不必满足交换律（commutative）和结合律（associative）。所有运算行为的顺序都有明确设定。<br>本算法返回输出区间的最尾端位置：result+（last-first）。</p>
+<ul>
+<li><p>power<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000323728-288517597.png" alt=""></p>
+</li>
+<li><p>itoa<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000336197-1995376542.png" alt=""></p>
+</li>
+</ul>
+<h2 id="6-4、基本算法"><a href="#6-4、基本算法" class="headerlink" title="6.4、基本算法"></a>6.4、基本算法<stl algobase.h></h2><ul>
+<li><p>for_each</p>
+</li>
+<li><p>equal</p>
+</li>
+<li><p>fill</p>
+</li>
+<li><p>fill_n</p>
+</li>
+<li><p>iter_swap</p>
+</li>
+<li><p>lexicographical_compare</p>
+<ul>
+<li>以“字典排列方式”对两个序列[first1，last1）和tfirst2，1ast2）进行比较。比较操作针对两序列中的对应位置上的元素进行，并持续直到<ul>
+<li>（1）某一组对应元素彼此不相等；</li>
+<li>（2）同时到达1ast1和last2（当两序列的大小相同）；</li>
+<li>（3）到达1ast1或last2（当两序列的大小不同）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当这个函数在对应位置上发现第一组不相等的元素时，有下列几种可能：</p>
+<ul>
+<li>如果第一序列的元素较小，返回true.否则返回false。</li>
+<li>如果到达last1而尚未到达last2，返回true。</li>
+<li>如果到达last2而尚未到达last1，返回false。</li>
+<li>如果同时到达last1和last2（换句话说所有元素都匹配），返回false；</li>
+</ul>
+</li>
+<li><p>max</p>
+</li>
+<li><p>min</p>
+</li>
+<li><p>mism atch</p>
+</li>
+</ul>
+<p>用来平行比较两个序列，指出两者之间的第一个不匹配点。返回一对迭代器，分别指向两序列中的不匹配点，如下图。如果两序列的所有对应元素都匹配，返回的便是两序列各自的last迭代器。缺省情况下是以equality操作符来比较元素；但第二版本允许用户指定比较操作。如果第二序列的元素个数比第一序列多，多出来的元素忽略不计。如果第二序列的元素个数比第一序列少，会发生未可预期的行为。</p>
+<ul>
+<li>swap</li>
+<li>copy<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000358486-2111604671.png" alt=""></li>
+</ul>
+<h2 id="6-5、set相关算法"><a href="#6-5、set相关算法" class="headerlink" title="6.5、set相关算法"></a>6.5、set相关算法</h2><p>STL一共提供了四种与set（集合）相关的算法，分别是并集（union）、交集（intersection）、差集（difference）、对称差集（symmetric difference）。</p>
+<h3 id="set-union"><a href="#set-union" class="headerlink" title="set_union"></a>set_union</h3><p>算法set_union可构造s1、s2之并集。也就是说，它能构造出集合s1Us2，此集合内含s1或s2内的每一个元素。s1、s2及其并集都是以排序区间表示。返回值为一个迭代器，指向输出区间的尾端。</p>
+<p>由于s1和s2内的每个元素都不需唯一，因此，如果某个值在s1出现n次，在s2出现m次，那么该值在输出区间中会出现max（m，n）次，其中n个来自s1，其余来自s2。</p>
+<p>set_union 是一种稳定（stable）操作，意思是输入区间内的每个元素的相对顺序都不会改变。set-union有两个版本，差别在于如何定义某个元素小于另一个元素。</p>
+<h3 id="set-intersection"><a href="#set-intersection" class="headerlink" title="set_intersection"></a>set_intersection</h3><p>算法 set_intersection可构造s1、s2之交集。也就是说，它能构造出集合s1 n s2，此集合内含同时出现于s1和s2内的每一个元素。s1、s2及其交集都是以排序区间表示。返回值为一个迭代器，指向输出区间的尾端。</p>
+<p>如果某个值在s1出现n次，在s2出现m次，那么该值在输出区间中会出现min（m，n）次，并且全部来自s1。</p>
+<p>set_intersection 是一种稳定（stable）操作，意思是输出区间内的每个元素的相对顺序都和s1内的相对顺序相同。它有两个版本，差别在于如何定义某个元素小于另一个元素。</p>
+<h3 id="set-difference"><a href="#set-difference" class="headerlink" title="set_difference"></a>set_difference</h3><p>算法 set_difference可构造s1、s2之差集。也就是说，它能构造出集合s1-s2，此集合内含“出现于s1但不出现于s2”的每一个元素。s1、s2及其交集都是以排序区间表示。返回值为一个迭代器，指向输出区间的尾端。</p>
+<p>由于s1和s2内的每个元素都不需唯一，因此如果某个值在s1出现n次，在s2出现m次，那么该值在输出区间中会出现max（n-m，0）次，并且全部来自S1。</p>
+<h3 id="set-difference-1"><a href="#set-difference-1" class="headerlink" title="set_difference"></a>set_difference</h3><p>是一种稳定（stable）操作，意思是输出区间内的每个元素的相对顺序都和S1内的相对顺序相同。它有两个版本，差别在于如何定义某个元素小于另一个元素。第一版本使用operator&lt;进行比较，第二版本采用仿函数comp进行比较。</p>
+<h3 id="set-symmetric-difference"><a href="#set-symmetric-difference" class="headerlink" title="set_symmetric_difference"></a>set_symmetric_difference</h3><p>算法setsymmetric_difference 可构造s1、s2之对称差集。也就是说，它能构造出集合（S1-S2）U（S2-S1），此集合内含“出现于s1但不出现于s2”<br>以及“出现于s2但不出现于s1”的每一个元素。S1、S2及其交集都是以排序区间表示。返回值为一个迭代器，指向输出区间的尾端。</p>
+<p>由于s1和s2内的每个元素都不需唯一，因此如果某个值在s1出现n次，在s2出现m次，那么该值在输出区间中会出现ln-ml次。如果n&gt;m，输出区间内的最后n-m个元素将由s1复制而来，如果n&lt; m则输出区间内的最后m-n个元素将由s2复制而来。在STL set容器内，m≤1且n&lt;=1。</p>
+<p>setsymmetric_difference 是一种稳定（stable）操作，意思是输入区间内的元素相对顺序不会被改变。它有两个版本，差别在于如何定义某个元素小于另一个元素。第一版本使用operators进行比较，第二版本采用仿函数comp。</p>
+<h2 id="6-6、heap算法"><a href="#6-6、heap算法" class="headerlink" title="6.6、heap算法"></a>6.6、heap算法</h2><h2 id="6-7、其它算法"><a href="#6-7、其它算法" class="headerlink" title="6.7、其它算法"></a>6.7、其它算法</h2><p>深入源代码之前，先观察每一个算法的表现，是个比较好的学习方式。以下程序示范本节每一个算法的用法。程序中有时使用STL内建的仿函数（functors，如less，greater，equeal_to）和配接器（adapters，如bind2nd），有时使用自定义的仿函数（如display，even_by_two）。</p>
+<ul>
+<li><p>adjacent find<br>找出第一组满足条件的相邻元素。这里所谓的条件，在版本一中是指“两元素相等”，在版本二中允许用户指定一个二元运算，两个操作数分别是相邻的第一元素和第二元素。</p>
+</li>
+<li><p>count<br>运用equality操作符，将[first，last）区间内的每一个元素拿来和指定值value比较，并返回与value相等的元素个数。</p>
+</li>
+<li><p>count_if<br>将指定操作（一个仿函数）pred实施于[first，1ast）区间内的每一个元素身上，并将“造成pred之计算结果为true”的所有元素的个数返回。</p>
+</li>
+<li><p>find</p>
+</li>
+<li><p>find it</p>
+</li>
+<li><p>find_end</p>
+</li>
+<li><p>find_first of</p>
+</li>
+<li><p>for_each</p>
+</li>
+<li><p>generate</p>
+</li>
+<li><p>generate_n</p>
+</li>
+<li><p>includes（应用于有序区间）</p>
+</li>
+<li><p>max element</p>
+</li>
+<li><p>merge（应用于有序区间）</p>
+</li>
+<li><p>min_element</p>
+</li>
+<li><p>partition</p>
+</li>
+</ul>
+<p>partition 会将区间[first，last）中的元素重新排列。所有被一元条件运算pred判定为true的元素，都会被放在区间的前段，被判定为false的元素，都会被放在区间的后段。这个算法并不保证保留元素的原始相对位置。如果需要保留原始相对位置，应使用stable_partition。<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000454758-820817564.png" alt=""></p>
+<ul>
+<li><p>remove移除（但不删除）<br>移除[first，1ast）之中所有与value相等的元素。这一算法并不真正从容器中删除那些元素（换句话说容器大小并未改变），而是将每一个不与value相等（也就是我们并不打算移除）的元素轮番赋值给first之后的空间。返回值Fonwarditerator 标示出重新整理后的最后元素的下一位置。<br>例如序列<br>{0，1，0，2，0，3，0，4]，如果我们执行remove（），希望移除所有0值元素，执行结果将是{1，23，4，0，3.0.4]。每一个与0不相等的元素，1，2，3，4，分别被拷贝到第一、二、三、四个位置上。第四个位置以后不动，换句话说是第四个位置之后是这一算法留下的残余数据。返回值Forwardlterator 指向第五个位置。如果要删除那些残余数据，可将返回的迭代器交给区间所在之容器的erase（）member function。注意，array 不适合使用remove（）和remove_if（），因为array无法缩小尺寸，导致残余数据永远存在。对array而言，较受欢迎的算法是remove_copy（）和</p>
+</li>
+<li><p>remove_copy</p>
+</li>
+<li><p>remove_if</p>
+</li>
+<li><p>remove_copy.if</p>
+</li>
+<li><p>replace</p>
+</li>
+<li><p>replace_copy</p>
+</li>
+<li><p>replace if</p>
+</li>
+<li><p>replace_copy._if</p>
+</li>
+<li><p>reverse</p>
+</li>
+<li><p>reverse_copy</p>
+</li>
+<li><p>rotate<br>将[first，middle）内的元素和[middle，last）内的元素互换。middle所指的元素会成为容器的第一个元素。<br><img src="https://img2018.cnblogs.com/i-beta/1463063/201912/1463063-20191225000526836-1762719892.png" alt=""></p>
+</li>
+<li><p>rotate_copy</p>
+</li>
+<li><p>search</p>
+</li>
+<li><p>search_n</p>
+</li>
+</ul>
+<p>在序列[first，last）所涵盖的区间中，查找“连续count个符合条件之元素”所形成的子序列，并返回一个迭代器指向该子序列起始处。如果找不到这样的子序列，就返回迭代器last。上述所谓的“某条件”，在search_n版本一指的是相等条件“equality”，在search_n版本二指的是用户指定的某个二元运算（以仿函数呈现）。</p>
+<p>例如，面对序列{10，8，8，7，2，8，7，2，2，8，7，0}，查找“连续两个8”所形成的子序列起点，可以这么写：<br>iter1 = search_n（iv.begin（），iv.end（），2，8）；</p>
+<p>查找“连续三个小于8的元素”所形成的子序列起点，可以这么写：<br>iter2 = search_n（iv.begin（），iv.end（），3，8，1ess&lt; int &gt;（）；</p>
+<ul>
+<li><p>swap_ranges</p>
+</li>
+<li><p>transform</p>
+</li>
+<li><p>unique</p>
+</li>
+<li><p>unique_copy</p>
+</li>
+<li><p>lower_bound（应用于有序区间）<br>这是二分查找（binary search）的一种版本，试图在已排序的（first，last）中寻找元素value。如果[first，last）具有与value相等的元素（s），便返回一个迭代器，指向其中第一个元素。如果没有这样的元素存在，便返回“假设这样的元素存在时应该出现的位置”。也就是说，它会返回一个迭代器，指向第一个“不小于value”的元素。如果value大于[first，last）内的任何一个元素，则返回last。以稍许不同的观点来看1ower_bound，其返回值是“在不破坏排序状态的原则下，可插入value的第一个位置”。 </p>
+</li>
+<li><p>upper_bound（应用于有序区间）<br>算法upper_bound是二分查找（binary search）法的一个版本。它试图在已排序的[first，last）中寻找value。更明确地说，它会返回“在不破坏顺序的情况下，可插入value的最后一个合适位置”。</p>
+</li>
+<li><p>binary_search（应用于有序区间）<br>算法binary_search 是一种二分查找法，试图在已排序的[first，last）中寻找元素value。如果[first，last）内有等同于value的元素，便返回true，否则返回false。</p>
+</li>
+</ul>
+<p>返回单纯的bool或许不能满足你，前面所介绍的lower_bound和upper_bound能够提供额外的信息。事实上binary_search便是利用lower_bound先找出“假设value存在的话，应该出现的位置”，然后再对比该位置上的值是否为我们所要查找的目标，并返回对比结果。</p>
+<ul>
+<li>next_permutation<br>STL提供了两个用来计算排列组合关系的算法，分别是nextpermucation和 prev_permutation。首先我们必须了解什么是“下一个”排列组合，什么是“前一个”排列组合。</li>
+</ul>
+<p>考虑三个字符所组成的序列（a，b，c）。这个序列有六个可能的排列组合：abc，acb，bac，bca，cab，cba。这些排列组合根据less-than操作符做字典顺序（lexicographical）的排序。也就是说，abc名列第一，因为每一个元素都小于其后的元素。</p>
+<p>next_permutation（）会取得[first，last）所标示之序列的下一个排列组合。如果没有下一个排列组合，便返回false；否则返回true。</p>
+<ul>
+<li><p>prev_permutation<br>所谓“前一个”排列组合，其意义已在上一节阐述。实际做法简述如下，其中所用的符号如图6-8所示。首先，从最尾端开始往前寻找两个相邻元素，令第一元素为<em>i，第二元素为</em>ii，且满足*i&gt;*ii。找到这样一组相邻元素后，再从最尾端开始往前检验，找出第一个小于*i的元素，令为*j，将i，j元素对调，再将ii之后的所有元素颠倒排列。此即所求之“前一个”排列组合。</p>
+</li>
+<li></li>
+<li><p>random_shufle<br>这个算法将[first，last）的元素次序随机重排。也就是说，在N！种可能的元素排列顺序中随机选出一种，此处N为last-first。</p>
+</li>
+</ul>
+<p>N个元素的序列，其排列方式有N！种，random_shuffle会产生一个均匀分布，因此任何一个排列被选中的机率为1/N！。这很重要，因为有不少算法在其第一阶段过程中必须获得序列的随机重排，但如果其结果未能形成“在N！个可能排列上均匀分布（uniform distribution）”，便很容易造成算法的错误。</p>
+<ul>
+<li><p>partial_sort/partial_sort<br>本算法接受一个middle 迭代器（位于序列[first，last）之内），然后重新安排[first，last），使序列中的middle-first个最小元素以递增顺序排序，置于（first，middle）内。其余1ast-middle个元素安置于[middle，last）中，不保证有任何特定顺序。</p>
+</li>
+<li><p>sort<br>STL的sort 算法，数据量大时采用Quick Sort，分段递归排序。<br>一旦分段后的数据量小于某个门槛，为避免Quick Sort的递归调用带来过大的额外负荷（overhead），就改用Insertion Sort。<br>如果递归层次过深，还会改用Heap Sort。</p>
+</li>
+<li><p>equal_range（应用于有序区间）<br>算法equal_range是二分查找法的一个版本，试图在已排序的[first，last）中寻找value。它返回一对迭代器i和j，其中i是在不破坏次序的前提下，value可插入的第一个位置（亦即1ower_bound），j则是在不破坏次序的前提下，value可插入的最后一个位置（亦即upper_bound）。因此，[i，j）内的每个元素都等同于value，而且[i，j）是(first，last)之中符合此一性质的最大子区间。<br>于是，算法lower_bound返回区间A的第一个迭代器，算法upper_bound返回区间A的最后元素的下一位置，算法equalrange则是以pair的形式将两者都返回。</p>
+</li>
+<li><p>inplace_merge（应用于有序区间）<br>如果两个连接在一起的序列[first，middle）和[middle，last）都已排序，那么inplacemerge可将它们结合成单一一个序列，并仍保有序性（sorted）。</p>
+</li>
+</ul>
+<p>如果原先两个序列是递增排序，执行结果也会是递增排序，如果原先两个序列是递减排序，执行结果也会是递减排序。</p>
+<p>和merge一样，inplace_merge也是一种稳定（stable）操作。每个作为数据来源的子序列中的元素相对次序都不会变动；如果两个子序列有等同的元素，第一序列的元素会被排在第二序列元素之前。</p>
+<ul>
+<li>nth_element<br>这个算法会重新排列[first，last），使迭代器nth所指的元素，与“整个<br>[first，1ast）完整排序后，同一位置的元素”同值。此外并保证（nth，last）内没有任何一个元素小于（更精确地说是不大于）[first，nth）内的元素，但对于[first，nth）和[nth，last）两个子区间内的元素次序则无任何保证一—这一点也是它与partial_sort很大的不同处。以此观之，nth_element比较近似partition 而非 sort 或 partial_sort。</li>
+</ul>
+<p>例如，假设有序列{22，30，30，17，33，40，17，23，22，12，20}，以下操作：<br>nth_element(iv.begin()，iv.begin()+5，iv.end())；便是将小于*(iv.begin()+5)(本例为40)的元素置于该元素之左，其余置于该元素之右，并且不保证维持原有的相对位置。获得的结果为{20，12，22，17，17，<br>22，23，30，30，33，40]。执行完毕后的5th个位置上的元素值22，与整个序列完整排序后{12，17，17，20，22，22，23，30，30，33，40]的5th个位置上的元素值相同。</p>
+<ul>
+<li>6.7.13 merge sort<br>以上的排序算法详见<a href="http://zzw1024.top/2019/12/23/shi-da-jing-dian-pai-xu-suan-fa/" target="_blank" rel="noopener"><strong>博文</strong></a></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top" rel="external nofollow noreferrer">zzw</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top/2019/12/24/du-shu-bi-ji-stl-yuan-ma-pou-xi-di-wu-liu-zhang-guan-lian-rong-qi-yu-suan-fa/">http://www.zzw1024.top/2019/12/24/du-shu-bi-ji-stl-yuan-ma-pou-xi-di-wu-liu-zhang-guan-lian-rong-qi-yu-suan-fa/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.zzw1024.top" target="_blank">zzw</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/STL%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+                                    <span class="chip bg-color">STL源码剖析</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">谢谢你请我吃糖果</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/img/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/img/weChatPay.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+    var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: 'bolg-comment',
+    owner: '',
+    admin: [''],
+    id: 'Tue Dec 24 2019 09:27:56 GMT+0800',
+    distractionFreeMode: ''
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/12/24/du-shu-bi-ji-stl-yuan-ma-pou-xi-di-qi-ba-zhang-fang-han-shu-yu-jie-pei-qi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="读书笔记——《STL源码剖析》（第七、八章：仿函数与接配器）">
+                        
+                        <span class="card-title">读书笔记——《STL源码剖析》（第七、八章：仿函数与接配器）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            第七章：仿函数7.1、仿函数（函数对象）概观STL仿函数的分类，若以操作数（operand）的个数划分，可分为一元和二元仿函数，若以功能划分，可分为算术运算（Arithmetic）、关系运算（Rational）、逻辑运算（Logical）三
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    读书笔记
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/STL%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+                        <span class="chip bg-color">STL源码剖析</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/23/shu-ju-jie-gou-shi-da-jing-dian-pai-xu-suan-fa/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="数据结构——十大经典排序算法">
+                        
+                        <span class="card-title">数据结构——十大经典排序算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            影响排序性能的要素：时间性能辅助空间算法的复杂度
+简单排序【n^2】算法思想：第一趟：从第一个记录开始，通过n-1次关键字比较，从n个记录中选出最小的并和第一个记录交换；第二趟：从第二个记录开始，通过n-2次关键字比较，从n -1个记录中选
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                    数据结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%8E%92%E5%BA%8F/">
+                        <span class="chip bg-color">排序</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 自由の翼<br />'
+            + '作者: 自由の翼<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.zzw1024.top" target="_blank">自由の翼</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "11";
+                    var startDate = "11";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/zzwblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="https://blog.csdn.net/weixin_42637495" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN" data-position="top" data-delay="50">
+        <i class="fab fa-dribbble"></i>
+    </a>
+
+
+
+    <a href="https://www.cnblogs.com/zzw1024/" class="tooltipped" target="_blank" data-tooltip="访问我的博客园" data-position="top" data-delay="50">
+        <i class="fa fa-rss-square"></i>
+    </a>
+
+
+
+    <a href="mailto:819342493@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://pic3.superbed.cn/item/5de4fcd8f1f6f81c50366b77.png" class="tooltipped" target="_blank" data-tooltip="请加我QQ" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://pic1.superbed.cn/item/5de4fd1bf1f6f81c50367398.png" class="tooltipped" target="_blank" data-tooltip="请加我微信" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        bp.src = '//push.zhanzhang.baidu.com/push.js';
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+      <script type="text/javascript" src="/js/snow.js"></script>
+    
+
+
+    <!-- <script async type="text/javascript" size="90" alpha="0.2" zIndex="0" src="/plugins/ribbon.js/ribbon.min.js"></script> -->
+    
+    
+        <script type="text/javascript" src="/plugins/live2d-widget.js/L2Dwidget.min.js"></script>
+<script type="text/javascript">
+  /**
+   * 完整配置请参考：https://l2dwidget.js.org/docs/class/src/index.js~L2Dwidget.html#instance-method-init
+   */
+  var pluginModelPath = "assets/", // 模型的文件路径，无需更改
+    pluginRootPath = "/live2d_models/"; // 插件的路径，无需更改
+  //特定的模型json文件名称
+  var modelPathJson = {
+    "epsilon2_1": "Epsilon2.1",
+    "gf": "Gantzert_Felixander",
+    "haru/01": "haru01",
+    "haru/02": "haru02",
+    "nietzsche": "nietzche"
+  }
+
+  
+    var modelName = "shizuku";
+  
+
+  var modelJsonPath = "";
+  if (modelPathJson[modelName]) {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelPathJson[modelName] +
+      ".model.json";
+  } else {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelName + ".model.json";
+  }
+  L2Dwidget.init({
+    model: {
+      jsonPath: modelJsonPath
+    },
+    display: {
+       position: "right", 
+       width: 145, 
+       height: 315, 
+       hOffset: 50, 
+       vOffset: 35 
+    },
+    mobile: {
+       show: false, 
+       scale: 0.6 
+    },
+    react: {
+       opacity: 0.8 
+    }
+  })
+
+</script>
+
+    
+
+    <!-- 音乐 -->
+     
+
+    <!-- 天气 -->
+     
+        <!-- weather -->
+<script type="text/javascript">
+    WIDGET = {FID: 'iBarNbUMlb'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+    
+
+
+</body>
+
+</html>
