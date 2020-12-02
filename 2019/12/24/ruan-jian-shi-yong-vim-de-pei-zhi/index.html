@@ -1,0 +1,1885 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="软件使用——vim的配置, 一个人的成长">
+    <meta name="description" content="set sw=4
+set ts=4
+set et
+set smarttab
+set smartindent
+set lbr
+set fo+=mB
+set sm
+set selection=inclusive
+set wildmenu
+set">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>软件使用——vim的配置 | 自由の翼</title>
+    <link rel="icon" type="image/jpeg" href="/img/111.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+
+    <script data-ad-client="ca-pub-6292651392430027" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="alternate" href="/atom.xml" title="自由の翼" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/img/logo1.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">自由の翼</span>
+
+                    
+                    
+                    <script>
+                      /* 标签页标题切换 */
+                      var originTitle = document.title;
+                      var titleTime;
+                      document.addEventListener("visibilitychange", function () {
+                        if (document.hidden) {
+                          document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                          clearTimeout(titleTime);
+                        } else {
+                          document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                          titleTime = setTimeout(function () {
+                            document.title = originTitle;
+                          }, 2000);
+                        }
+                      });
+                    </script>
+                    
+
+                    
+
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/goodpapers" class="waves-effect waves-light">
+      
+      <i class="fas fa-coffee" style="zoom: 0.6;"></i>
+      
+      <span>收藏</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="margin-right: -100px; zoom: 0.6;"></i>
+    </a>
+  </li>
+
+  <li>
+  <a>
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+  </a>
+  </li>
+  <li>
+  <a></a>
+  </li>
+
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/img/logo1.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">自由の翼</div>
+        <div class="logo-desc">
+            
+            只愿今朝逢知己，共同成长
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Home
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/goodpapers" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-coffee"></i>
+			
+			Goodpapers
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zzw1024" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zzw1024" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">软件使用——vim的配置</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/vim/">
+                                <span class="chip bg-color">vim</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" class="post-category">
+                                软件使用
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+
+                <div class="info-break-policy">
+                    
+                        <i class="fa fa-user"></i> 作者:&nbsp;&nbsp;
+                        zzw         
+                    
+                </div>
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-12-24
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-12-24
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    26 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <pre><code>set sw=4
+set ts=4
+set et
+set smarttab
+set smartindent
+set lbr
+set fo+=mB
+set sm
+set selection=inclusive
+set wildmenu
+set mousemodel=popup
+
+
+&quot; 这里根据自己需要的插件来设置，以下是我的配置 &quot;
+&quot;
+&quot; YouCompleteMe:语句补全插件
+set runtimepath+=~/.vim/bundle/YouCompleteMe
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif &quot;离开插入模式后自动关闭预览窗口&quot;
+let g:ycm_collect_identifiers_from_tags_files = 1           &quot; 开启 YCM基于标签引擎
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 &quot; 注释与字符串中的内容也用于补全
+let g:syntastic_ignore_files=[&quot;.*\.py$&quot;]
+let g:ycm_seed_identifiers_with_syntax = 1                  &quot; 语法关键字补全
+let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf = 0                            &quot; 关闭加载.ycm_extra_conf.py提示
+let g:ycm_key_list_select_completion = [&#39;&lt;c-n&gt;&#39;, &#39;&lt;Down&gt;&#39;]  &quot; 映射按键,没有这个会拦截掉tab, 导致其他插件的tab不能用.
+let g:ycm_key_list_previous_completion = [&#39;&lt;c-p&gt;&#39;, &#39;&lt;Up&gt;&#39;]
+let g:ycm_complete_in_comments = 1                          &quot; 在注释输入中也能补全
+let g:ycm_complete_in_strings = 1                           &quot; 在字符串输入中也能补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 &quot; 注释和字符串中的文字也会被收入补全
+let g:ycm_global_ycm_extra_conf=&#39;~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py&#39;
+let g:ycm_show_diagnostics_ui = 0                           &quot; 禁用语法检查
+inoremap &lt;expr&gt; &lt;CR&gt; pumvisible() ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;CR&gt;&quot;             &quot; 回车即选中当前项
+nnoremap &lt;c-j&gt; :YcmCompleter GoToDefinitionElseDeclaration&lt;CR&gt;     &quot; 跳转到定义处
+let g:ycm_min_num_of_chars_for_completion=2                 &quot; 从第2个键入字符就开始罗列匹配项
+&quot;
+
+au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
+au FileType css setlocal dict+=~/.vim/dict/css.dict
+au FileType c setlocal dict+=~/.vim/dict/c.dict
+au FileType cpp setlocal dict+=~/.vim/dict/cpp.dict
+au FileType scale setlocal dict+=~/.vim/dict/scale.dict
+au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/css.dict
+
+
+
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot; 显示相关  
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+syntax on
+set cul &quot;高亮光标所在行
+set cuc
+set shortmess=atI   &quot; 启动的时候不显示那个援助乌干达儿童的提示  
+set go=             &quot; 不要图形按钮  
+&quot;color desert     &quot; 设置背景主题  
+color ron     &quot; 设置背景主题  
+&quot;color torte     &quot; 设置背景主题  
+&quot;set guifont=Courier_New:h10:cANSI   &quot; 设置字体  
+&quot;autocmd InsertLeave * se nocul  &quot; 用浅色高亮当前行  
+autocmd InsertEnter * se cul    &quot; 用浅色高亮当前行  
+set ruler           &quot; 显示标尺  
+set showcmd         &quot; 输入的命令显示出来，看的清楚些  
+&quot;set whichwrap+=&lt;,&gt;,h,l   &quot; 允许backspace和光标键跨越行边界(不建议)  
+set scrolloff=3     &quot; 光标移动到buffer的顶部和底部时保持3行距离  
+set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)}   &quot;状态行显示的内容  
+set laststatus=2    &quot; 启动显示状态行(1),总是显示状态行(2)  
+&quot;set foldenable      &quot; 允许折叠  
+&quot;&quot;set foldmethod=manual   &quot; 手动折叠  
+set nocompatible  &quot;去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限  
+&quot; 显示中文帮助
+if version &gt;= 603
+    set helplang=cn
+    set encoding=utf-8
+endif
+&quot; 自动缩进
+set autoindent
+set cindent
+&quot; Tab键的宽度
+set tabstop=4
+&quot; 统一缩进为4
+set softtabstop=4
+set shiftwidth=4
+&quot; 使用空格代替制表符
+set expandtab
+&quot; 在行和段开始处使用制表符
+set smarttab
+&quot; 显示行号
+set number
+&quot; 历史记录数
+set history=1000
+&quot;搜索逐字符高亮
+set hlsearch
+set incsearch
+&quot;语言设置
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+&quot; 总是显示状态行
+set cmdheight=2
+&quot; 侦测文件类型
+filetype on
+&quot; 载入文件类型插件
+filetype plugin on
+&quot; 为特定文件类型载入相关缩进文件
+filetype indent on
+&quot; 保存全局变量
+set viminfo+=!
+&quot; 带有如下符号的单词不要被换行分割
+set iskeyword+=_,$,@,%,#,-
+&quot; 字符间插入的像素行数目
+
+&quot;markdown配置
+au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
+au BufRead,BufNewFile *.{go}   set filetype=go
+au BufRead,BufNewFile *.{js}   set filetype=javascript
+&quot;rkdown to HTML  
+nmap md :!~/.vim/markdown.pl % &gt; %.html &lt;CR&gt;&lt;CR&gt;
+nmap fi :!firefox %.html &amp; &lt;CR&gt;&lt;CR&gt;
+nmap \ \cc
+vmap \ \cc
+
+&quot;将tab替换为空格
+nmap tt :%s/\t/    /g&lt;CR&gt;
+
+
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;&quot;&quot;&quot;&quot;新文件标题
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;新建.c,.h,.sh,.java文件，自动插入文件头 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec &quot;:call SetTitle()&quot; 
+&quot;&quot;定义函数SetTitle，自动插入文件头 
+func SetTitle() 
+    &quot;如果文件类型为.sh文件 
+    if &amp;filetype == &#39;sh&#39; 
+        call setline(1,&quot;\#!/bin/bash&quot;) 
+        call append(line(&quot;.&quot;), &quot;&quot;) 
+    elseif &amp;filetype == &#39;python&#39;
+        call setline(1,&quot;#!/usr/bin/env python&quot;)
+        call append(line(&quot;.&quot;),&quot;# coding=utf-8&quot;)
+        call append(line(&quot;.&quot;)+1, &quot;&quot;) 
+
+    elseif &amp;filetype == &#39;ruby&#39;
+        call setline(1,&quot;#!/usr/bin/env ruby&quot;)
+        call append(line(&quot;.&quot;),&quot;# encoding: utf-8&quot;)
+        call append(line(&quot;.&quot;)+1, &quot;&quot;)
+
+        &quot;    elseif &amp;filetype == &#39;mkd&#39;
+        &quot;        call setline(1,&quot;&lt;head&gt;&lt;meta charset=\&quot;UTF-8\&quot;&gt;&lt;/head&gt;&quot;)
+    else 
+        call setline(1, &quot;/*************************************************************************&quot;) 
+        call append(line(&quot;.&quot;), &quot;    &gt; File Name: &quot;.expand(&quot;%&quot;)) 
+        call append(line(&quot;.&quot;)+1, &quot;    &gt; Author: zzw &quot;) 
+        call append(line(&quot;.&quot;)+2, &quot;    &gt; Mail: 819342493@qq.com&quot;) 
+        call append(line(&quot;.&quot;)+3, &quot;    &gt; Created Time: &quot;.strftime(&quot;%c&quot;)) 
+        call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) 
+        call append(line(&quot;.&quot;)+5, &quot;&quot;)
+    endif
+    if expand(&quot;%:e&quot;) == &#39;cpp&#39;
+        call append(line(&quot;.&quot;)+6, &quot;#include&lt;iostream&gt;&quot;)
+        call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)
+        call append(line(&quot;.&quot;)+8, &quot;&quot;)
+    endif
+    if &amp;filetype == &#39;c&#39;
+        call append(line(&quot;.&quot;)+6, &quot;#include&lt;stdio.h&gt;&quot;)
+        call append(line(&quot;.&quot;)+7, &quot;&quot;)
+    endif
+    if expand(&quot;%:e&quot;) == &#39;h&#39;
+        call append(line(&quot;.&quot;)+6, &quot;#ifndef _&quot;.toupper(expand(&quot;%:r&quot;)).&quot;_H&quot;)
+        call append(line(&quot;.&quot;)+7, &quot;#define _&quot;.toupper(expand(&quot;%:r&quot;)).&quot;_H&quot;)
+        call append(line(&quot;.&quot;)+8, &quot;#endif&quot;)
+    endif
+    if &amp;filetype == &#39;java&#39;
+        call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%:r&quot;))
+        call append(line(&quot;.&quot;)+7,&quot;&quot;)
+    endif
+    &quot;新建文件后，自动定位到文件末尾
+endfunc 
+autocmd BufNewFile * normal G
+
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;键盘命令
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+:nmap &lt;silent&gt; &lt;F9&gt; &lt;ESC&gt;:Tlist&lt;RETURN&gt;
+&quot; shift tab pages
+map &lt;S-Left&gt; :tabp&lt;CR&gt;
+map &lt;S-Right&gt; :tabn&lt;CR&gt;
+map! &lt;C-Z&gt; &lt;Esc&gt;zzi
+map! &lt;C-O&gt; &lt;C-Y&gt;,
+map &lt;C-A&gt; ggVG$&quot;+y
+map &lt;Esc&gt;&lt;Esc&gt; :w&lt;CR&gt;
+map &lt;F12&gt; gg=G
+map &lt;C-w&gt; &lt;C-w&gt;w
+imap &lt;C-k&gt; &lt;C-y&gt;,
+imap &lt;C-t&gt; &lt;C-q&gt;&lt;TAB&gt;
+imap &lt;C-j&gt; &lt;ESC&gt;
+&quot; 选中状态下 Ctrl+c 复制
+&quot;map &lt;C-v&gt; &quot;*pa
+imap &lt;C-v&gt; &lt;Esc&gt;&quot;*pa
+imap &lt;C-a&gt; &lt;Esc&gt;^
+imap &lt;C-e&gt; &lt;Esc&gt;$
+vmap &lt;C-c&gt; &quot;+y
+set mouse=v
+&quot;set clipboard=unnamed
+&quot;去空行  
+nnoremap &lt;F2&gt; :g/^\s*$/d&lt;CR&gt; 
+&quot;比较文件  
+nnoremap &lt;C-F2&gt; :vert diffsplit 
+&quot;nnoremap &lt;Leader&gt;fu :CtrlPFunky&lt;Cr&gt;
+&quot;nnoremap &lt;C-n&gt; :CtrlPFunky&lt;Cr&gt;
+&quot;列出当前目录文件  
+map &lt;F3&gt; :NERDTreeToggle&lt;CR&gt;
+imap &lt;F3&gt; &lt;ESC&gt; :NERDTreeToggle&lt;CR&gt;
+&quot;打开树状文件目录  
+map &lt;C-F3&gt; \be  
+:autocmd BufRead,BufNewFile *.dot map &lt;F5&gt; :w&lt;CR&gt;:!dot -Tjpg -o %&lt;.jpg % &amp;&amp; eog %&lt;.jpg  &lt;CR&gt;&lt;CR&gt; &amp;&amp; exec &quot;redr!&quot;
+&quot;C，C++ 按F5编译运行
+map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;
+func! CompileRunGcc()
+    exec &quot;w&quot;
+    if &amp;filetype == &#39;c&#39;
+        exec &quot;!g++ % -o %&lt;&quot;
+        exec &quot;!time ./%&lt;&quot;
+    elseif &amp;filetype == &#39;cpp&#39;
+        exec &quot;!g++ % -std=c++11 -o %&lt;&quot;
+        exec &quot;!time ./%&lt;&quot;
+    elseif &amp;filetype == &#39;java&#39; 
+        exec &quot;!javac %&quot; 
+        exec &quot;!time java %&lt;&quot;
+    elseif &amp;filetype == &#39;sh&#39;
+        :!time bash %
+    elseif &amp;filetype == &#39;python&#39;
+        exec &quot;!time python2.7 %&quot;
+    elseif &amp;filetype == &#39;html&#39;
+        exec &quot;!firefox % &amp;&quot;
+    elseif &amp;filetype == &#39;go&#39;
+        &quot;        exec &quot;!go build %&lt;&quot;
+        exec &quot;!time go run %&quot;
+    elseif &amp;filetype == &#39;mkd&#39;
+        exec &quot;!~/.vim/markdown.pl % &gt; %.html &amp;&quot;
+        exec &quot;!firefox %.html &amp;&quot;
+    endif
+endfunc
+&quot;C,C++的调试
+map &lt;F8&gt; :call Rungdb()&lt;CR&gt;
+func! Rungdb()
+    exec &quot;w&quot;
+    exec &quot;!g++ % -std=c++11 -g -o %&lt;&quot;
+    exec &quot;!gdb ./%&lt;&quot;
+endfunc
+
+
+&quot;代码格式优化化
+
+map &lt;F6&gt; :call FormartSrc()&lt;CR&gt;&lt;CR&gt;
+
+&quot;定义FormartSrc()
+func FormartSrc()
+    exec &quot;w&quot;
+    if &amp;filetype == &#39;c&#39;
+        exec &quot;!astyle --style=ansi -a --suffix=none %&quot;
+    elseif &amp;filetype == &#39;cpp&#39; || &amp;filetype == &#39;hpp&#39;
+        exec &quot;r !astyle --style=ansi --one-line=keep-statements -a --suffix=none %&gt; /dev/null 2&gt;&amp;1&quot;
+    elseif &amp;filetype == &#39;perl&#39;
+        exec &quot;!astyle --style=gnu --suffix=none %&quot;
+    elseif &amp;filetype == &#39;py&#39;||&amp;filetype == &#39;python&#39;
+        exec &quot;r !autopep8 -i --aggressive %&quot;
+    elseif &amp;filetype == &#39;java&#39;
+        exec &quot;!astyle --style=java --suffix=none %&quot;
+    elseif &amp;filetype == &#39;jsp&#39;
+        exec &quot;!astyle --style=gnu --suffix=none %&quot;
+    elseif &amp;filetype == &#39;xml&#39;
+        exec &quot;!astyle --style=gnu --suffix=none %&quot;
+    else
+        exec &quot;normal gg=G&quot;
+        return
+    endif
+    exec &quot;e! %&quot;
+endfunc
+&quot;结束定义FormartSrc
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;&quot;实用设置
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot; 设置当文件被改动时自动载入
+set autoread
+&quot; quickfix模式
+autocmd FileType c,cpp map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;
+&quot;代码补全 
+set completeopt=preview,menu 
+&quot;允许插件  
+filetype plugin on
+&quot;共享剪贴板  
+set clipboard=unnamed 
+&quot;从不备份  
+set nobackup
+&quot;make 运行
+:set makeprg=g++\ -Wall\ \ %
+&quot;自动保存
+set autowrite
+set ruler                   &quot; 打开状态栏标尺
+set cursorline              &quot; 突出显示当前行
+set magic                   &quot; 设置魔术
+set guioptions-=T           &quot; 隐藏工具栏
+set guioptions-=m           &quot; 隐藏菜单栏
+&quot;set statusline=\ %&lt;%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&amp;fileformat}\ %{&amp;encoding}\ %c:%l/%L%)\
+&quot; 设置在状态行显示的信息
+set foldcolumn=0
+set foldmethod=indent 
+set foldlevel=3 
+set foldenable              &quot; 开始折叠
+&quot; 不要使用vi的键盘模式，而是vim自己的
+set nocompatible
+&quot; 语法高亮
+set syntax=on
+&quot; 去掉输入错误的提示声音
+set noeb
+&quot; 在处理未保存或只读文件的时候，弹出确认
+set confirm
+&quot; 自动缩进
+set autoindent
+set cindent
+&quot; Tab键的宽度
+set tabstop=4
+&quot; 统一缩进为4
+set softtabstop=4
+set shiftwidth=4
+&quot; 不要用空格代替制表符
+set noexpandtab
+&quot; 在行和段开始处使用制表符
+set smarttab
+&quot; 显示行号
+set number
+&quot; 历史记录数
+set history=1000
+&quot;禁止生成临时文件
+set nobackup
+set noswapfile
+&quot;搜索忽略大小写
+set ignorecase
+&quot;搜索逐字符高亮
+set hlsearch
+set incsearch
+&quot;行内替换
+set gdefault
+&quot;编码设置
+set enc=utf-8
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+&quot;语言设置
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+&quot; 我的状态行显示的内容（包括文件类型和解码）
+set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)}
+set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
+&quot; 总是显示状态行
+set laststatus=2
+&quot; 命令行（在状态行下）的高度，默认为1，这里是2
+set cmdheight=2
+&quot; 侦测文件类型
+filetype on
+&quot; 载入文件类型插件
+filetype plugin on
+&quot; 为特定文件类型载入相关缩进文件
+filetype indent on
+&quot; 保存全局变量
+set viminfo+=!
+&quot; 带有如下符号的单词不要被换行分割
+set iskeyword+=_,$,@,%,#,-
+&quot; 字符间插入的像素行数目
+set linespace=0
+&quot; 增强模式中的命令行自动完成操作
+set wildmenu
+&quot; 使回格键（backspace）正常处理indent, eol, start等
+set backspace=2
+&quot; 允许backspace和光标键跨越行边界
+set whichwrap+=&lt;,&gt;,h,l
+&quot; 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+set mouse=a
+set selection=exclusive
+set selectmode=mouse,key
+&quot; 通过使用: commands命令，告诉我们文件的哪一行被改变过
+set report=0
+&quot; 在被分割的窗口间显示空白，便于阅读
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+&quot; 高亮显示匹配的括号
+set showmatch
+&quot; 匹配括号高亮的时间（单位是十分之一秒）
+set matchtime=1
+&quot; 光标移动到buffer的顶部和底部时保持3行距离
+set scrolloff=3
+&quot; 为C程序提供自动缩进
+set smartindent
+&quot; 高亮显示普通txt文件（需要txt.vim脚本）
+au BufRead,BufNewFile *  setfiletype txt
+&quot;自动补全
+:inoremap ( ()&lt;ESC&gt;i
+:inoremap ) &lt;c-r&gt;=ClosePair(&#39;)&#39;)&lt;CR&gt;
+&quot;:inoremap { {&lt;CR&gt;}&lt;ESC&gt;O
+&quot;:inoremap } &lt;c-r&gt;=ClosePair(&#39;}&#39;)&lt;CR&gt;
+:inoremap [ []&lt;ESC&gt;i
+:inoremap ] &lt;c-r&gt;=ClosePair(&#39;]&#39;)&lt;CR&gt;
+:inoremap &quot; &quot;&quot;&lt;ESC&gt;i
+:inoremap &#39; &#39;&#39;&lt;ESC&gt;i
+function! ClosePair(char)
+    if getline(&#39;.&#39;)[col(&#39;.&#39;) - 1] == a:char
+        return &quot;\&lt;Right&gt;&quot;
+    else
+        return a:char
+    endif
+endfunction
+filetype plugin indent on 
+&quot;打开文件类型检测, 加了这句才可以用智能补全
+set completeopt=longest,menu
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot; CTags的设定  
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+let Tlist_Sort_Type = &quot;name&quot;    &quot; 按照名称排序  
+let Tlist_Use_Right_Window = 1  &quot; 在右侧显示窗口  
+let Tlist_Compart_Format = 1    &quot; 压缩方式  
+let Tlist_Exist_OnlyWindow = 1  &quot; 如果只有一个buffer，kill窗口也kill掉buffer  
+&quot;&quot;let Tlist_File_Fold_Auto_Close = 0  &quot; 不要关闭其他文件的tags  
+&quot;&quot;let Tlist_Enable_Fold_Column = 0    &quot; 不要显示折叠树  
+&quot;let Tlist_Show_One_File=1            &quot;不同时显示多个文件的tag，只显示当前文件的
+&quot;设置tags  
+set tags=tags;  
+set autochdir 
+
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;其他东东
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot;默认打开Taglist 
+let Tlist_Auto_Open=0 
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; 
+&quot; Tag list (ctags) 
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; 
+let Tlist_Ctags_Cmd = &#39;/usr/local/bin/ctags&#39; 
+let Tlist_Show_One_File = 1 &quot;不同时显示多个文件的tag，只显示当前文件的 
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_Exit_OnlyWindow = 1 &quot;如果taglist窗口是最后一个窗口，则退出vim 
+let Tlist_Use_Right_Window = 1 &quot;在右侧窗口中显示taglist窗口
+&quot; minibufexpl插件的一般设置
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1  
+nmap tl :Tlist&lt;cr&gt;
+
+&quot;python补全
+let g:pydiction_location = &#39;~/.vim/after/complete-dict&#39;
+let g:pydiction_menu_height = 20
+let Tlist_Ctags_Cmd=&#39;/usr/local/bin/ctags&#39;
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+
+set iskeyword+=.
+set termencoding=utf-8
+set encoding=utf8
+set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+&quot;set nocompatible               &quot; be iMproved
+&quot;filetype off                   &quot; required!
+
+
+let g:html_indent_inctags = &quot;html,body,head,tbody&quot;
+let g:html_indent_script1 = &quot;inc&quot;
+let g:html_indent_style1 = &quot;inc&quot;
+
+filetype plugin indent on     &quot; required!
+&quot;
+&quot;ctrlp设置
+&quot;
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif     &quot; MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pyc,*.png,*.jpg,*.gif  &quot; Windows
+
+let g:ctrlp_custom_ignore = &#39;\v[\/]\.(git|hg|svn)$&#39;
+let g:ctrlp_custom_ignore = &#39;\v\.(exe|so|dll)$&#39;
+let g:ctrlp_extensions = [&#39;funky&#39;]
+
+let NERDTreeIgnore=[&#39;\.pyc&#39;]
+</code></pre>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top" rel="external nofollow noreferrer">zzw</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.zzw1024.top/2019/12/24/ruan-jian-shi-yong-vim-de-pei-zhi/">http://www.zzw1024.top/2019/12/24/ruan-jian-shi-yong-vim-de-pei-zhi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.zzw1024.top" target="_blank">zzw</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/vim/">
+                                    <span class="chip bg-color">vim</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">谢谢你请我吃糖果</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/img/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/img/weChatPay.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+    var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: 'bolg-comment',
+    owner: '',
+    admin: [''],
+    id: 'Tue Dec 24 2019 10:08:33 GMT+0800',
+    distractionFreeMode: ''
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/12/24/wen-dang-vim-de-pei-zhi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="文档——vim的配置">
+                        
+                        <span class="card-title">文档——vim的配置</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            set sw=4
+set ts=4
+set et
+set smarttab
+set smartindent
+set lbr
+set fo+=mB
+set sm
+set selection=inclusive
+set wildmenu
+set
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%96%87%E6%A1%A3/" class="post-category">
+                                    文档
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/vim/">
+                        <span class="chip bg-color">vim</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/24/du-shu-bi-ji-stl-yuan-ma-pou-xi-di-qi-ba-zhang-fang-han-shu-yu-jie-pei-qi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="读书笔记——《STL源码剖析》（第七、八章：仿函数与接配器）">
+                        
+                        <span class="card-title">读书笔记——《STL源码剖析》（第七、八章：仿函数与接配器）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            第七章：仿函数7.1、仿函数（函数对象）概观STL仿函数的分类，若以操作数（operand）的个数划分，可分为一元和二元仿函数，若以功能划分，可分为算术运算（Arithmetic）、关系运算（Rational）、逻辑运算（Logical）三
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    读书笔记
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/STL%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+                        <span class="chip bg-color">STL源码剖析</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 自由の翼<br />'
+            + '作者: 自由の翼<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.zzw1024.top" target="_blank">自由の翼</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "11";
+                    var startDate = "11";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/zzwblog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="https://blog.csdn.net/weixin_42637495" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN" data-position="top" data-delay="50">
+        <i class="fab fa-dribbble"></i>
+    </a>
+
+
+
+    <a href="https://www.cnblogs.com/zzw1024/" class="tooltipped" target="_blank" data-tooltip="访问我的博客园" data-position="top" data-delay="50">
+        <i class="fa fa-rss-square"></i>
+    </a>
+
+
+
+    <a href="mailto:819342493@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://pic3.superbed.cn/item/5de4fcd8f1f6f81c50366b77.png" class="tooltipped" target="_blank" data-tooltip="请加我QQ" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://pic1.superbed.cn/item/5de4fd1bf1f6f81c50367398.png" class="tooltipped" target="_blank" data-tooltip="请加我微信" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        bp.src = '//push.zhanzhang.baidu.com/push.js';
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+      <script type="text/javascript" src="/js/snow.js"></script>
+    
+
+
+    <!-- <script async type="text/javascript" size="90" alpha="0.2" zIndex="0" src="/plugins/ribbon.js/ribbon.min.js"></script> -->
+    
+    
+        <script type="text/javascript" src="/plugins/live2d-widget.js/L2Dwidget.min.js"></script>
+<script type="text/javascript">
+  /**
+   * 完整配置请参考：https://l2dwidget.js.org/docs/class/src/index.js~L2Dwidget.html#instance-method-init
+   */
+  var pluginModelPath = "assets/", // 模型的文件路径，无需更改
+    pluginRootPath = "/live2d_models/"; // 插件的路径，无需更改
+  //特定的模型json文件名称
+  var modelPathJson = {
+    "epsilon2_1": "Epsilon2.1",
+    "gf": "Gantzert_Felixander",
+    "haru/01": "haru01",
+    "haru/02": "haru02",
+    "nietzsche": "nietzche"
+  }
+
+  
+    var modelName = "shizuku";
+  
+
+  var modelJsonPath = "";
+  if (modelPathJson[modelName]) {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelPathJson[modelName] +
+      ".model.json";
+  } else {
+    modelJsonPath = pluginRootPath + modelName + "/" + pluginModelPath + modelName + ".model.json";
+  }
+  L2Dwidget.init({
+    model: {
+      jsonPath: modelJsonPath
+    },
+    display: {
+       position: "right", 
+       width: 145, 
+       height: 315, 
+       hOffset: 50, 
+       vOffset: 35 
+    },
+    mobile: {
+       show: false, 
+       scale: 0.6 
+    },
+    react: {
+       opacity: 0.8 
+    }
+  })
+
+</script>
+
+    
+
+    <!-- 音乐 -->
+     
+
+    <!-- 天气 -->
+     
+        <!-- weather -->
+<script type="text/javascript">
+    WIDGET = {FID: 'iBarNbUMlb'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+    
+
+
+</body>
+
+</html>
